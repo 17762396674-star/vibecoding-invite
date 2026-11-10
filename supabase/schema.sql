@@ -2,7 +2,7 @@
 --  活动预告站 · 数据库初始化
 --  ---------------------------------------------------------------------------
 --  用法：Supabase 控制台 → 左侧 SQL Editor → New query → 整段粘贴 → Run
---  只改一处：第 2 节里的管理员邮箱，换成你自己的。
+--  管理员邮箱已填好：CHANGE_ME@example.com（要换人用，改第 2 节那一行）
 --
 --  权限模型：访客只能写，不能读。整张表只有管理员能看、能导出。
 -- ===========================================================================
@@ -135,13 +135,13 @@ drop function if exists public.answers_count(text);
 --  5. 自检（运行完看结果，全部 OK 才算配置成功）
 -- ===========================================================================
 select
-  '管理员邮箱已替换' as 检查项,
+  '管理员邮箱' as 检查项,
   case when exists (
     select 1 from pg_proc p
     join pg_namespace n on n.oid = p.pronamespace
     where n.nspname = 'public' and p.proname = 'is_owner'
-      and pg_get_functiondef(p.oid) not like '%CHANGE_ME%'
-  ) then 'OK' else '还没改！请回到第 2 节换成你的邮箱' end as 结果
+      and pg_get_functiondef(p.oid) like '%CHANGE_ME@example.com%'
+  ) then 'OK（CHANGE_ME@example.com）' else '不匹配，请看第 2 节' end as 结果
 union all
 select '表已建好', case when exists (
     select 1 from information_schema.tables
