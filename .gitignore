@@ -1,0 +1,32 @@
+# 这个仓库对外只放「网站本身 + 说明」，其余一律不上传
+# —— 本地测试、截图、AI 工作目录、笔记草稿都留在自己电脑里
+
+# 测试与截图
+.tools/
+*.spec.js
+check-*.js
+screenshot*.js
+
+# 编辑器 / AI 工作目录
+.workbuddy/
+.claude/
+.vscode/
+.idea/
+*.code-workspace
+
+# 依赖与系统垃圾
+node_modules/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 环境变量与密钥
+.env
+.env.*
+*.pem
+*.key
+
+# 本地笔记 / 草稿（如果你把文档放在项目里，也不会被推上去）
+notes/
+drafts/
+*.local.md
