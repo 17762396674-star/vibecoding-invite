@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex, nofollow" />
-<title>管理后台 · 活动问卷</title>
+<title>管理后台 · 江西飞行学院编程爱好者协会</title>
 <link rel="stylesheet" href="assets/css/style.css" />
 <link rel="stylesheet" href="assets/css/admin.css" />
 </head>
@@ -12,9 +12,12 @@
 
 <header class="admin-bar">
   <div class="wrap admin-bar__inner">
-    <a class="brand" href="index.html">
-      <span class="brand__mark" aria-hidden="true">CA</span>
-      <span>编程爱好者协会</span>
+    <a class="brand" href="index.html" aria-label="江西飞行学院编程爱好者协会">
+      <span class="brand__mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21.2 2.8 3.1 11.2l6.9 2.6Z" fill="#fff"/><path d="M21.2 2.8 10 13.8l2.8 7.4Z" fill="#4a5cff"/></svg></span>
+      <span class="brand__name">
+        <span class="brand__school">江西飞行学院</span>
+        <span class="brand__club">编程爱好者协会</span>
+      </span>
     </a>
     <span class="admin-bar__tag">管理后台</span>
     <div class="admin-bar__right">
@@ -33,7 +36,7 @@
       <h1>只有管理员能进</h1>
       <p>
         这个页面用来查看完整问卷明细、导出表格。访客只能看公开的回答，
-        联系方式与导出入口在数据库层面就对其他人关闭。
+        明细与导出入口在数据库层面就对其他人关闭。
       </p>
 
       <div class="field">
@@ -48,6 +51,11 @@
       <button class="btn btn--solid" type="submit" id="loginBtn">登录</button>
       <div class="login__msg" id="loginMsg" role="alert"></div>
     </form>
+
+    <p class="login__credit">
+      <img src="assets/logo/jxfi-ink.png" alt="江西飞行学院" />
+      仅限江西飞行学院编程爱好者协会内部使用
+    </p>
   </section>
 
   <!-- 已登录 -->
@@ -60,12 +68,11 @@
     </div>
 
     <div class="toolbar">
-      <input class="input" id="q" type="search" placeholder="搜昵称、内容、联系方式" aria-label="搜索" />
+      <input class="input" id="q" type="search" placeholder="搜昵称、年级、内容" aria-label="搜索" />
       <select class="input" id="kind" aria-label="筛选类型">
         <option value="all">全部</option>
         <option value="expect">只看期待</option>
         <option value="ai">只看 AI 故事</option>
-        <option value="contact">只看留了联系方式的</option>
       </select>
       <button class="btn btn--ghost btn--sm" id="reloadBtn">刷新</button>
       <div class="toolbar__right">
@@ -83,7 +90,6 @@
             <th style="width:132px">年级专业</th>
             <th>对活动的期待</th>
             <th>AI 故事</th>
-            <th style="width:150px">联系方式</th>
             <th style="width:104px">操作</th>
           </tr>
         </thead>
@@ -93,8 +99,8 @@
     </div>
 
     <p class="admin-note">
-      导出为 CSV（带 BOM，Excel 双击直接打开，不会乱码）。导出的内容包含联系方式，
-      只应保存在你自己的电脑上，不要转发到群里。<br />
+      导出为 CSV（带 BOM，Excel 双击直接打开，不会乱码）。导出的内容只保存在你自己的电脑上，
+      不要转发到群里。<br />
       删除是不可恢复的；如果只是想让它从墙上消失，用「隐藏」。
     </p>
   </section>

@@ -119,10 +119,10 @@
 
   /* ---------------- 拉数据 ---------------- */
   async function load() {
-    rowsEl.innerHTML = '<tr><td colspan="7" style="padding:22px 12px;color:#7c766a">读取中…</td></tr>';
+    rowsEl.innerHTML = '<tr><td colspan="6" style="padding:22px 12px;color:#7c766a">读取中…</td></tr>';
     var res = await client
       .from('responses')
-      .select('id,created_at,nickname,grade,expect,ai_story,contact,publish')
+      .select('id,created_at,nickname,grade,expect,ai_story,publish')
       .order('created_at', { ascending: false })
       .limit(1000);
 
@@ -188,9 +188,8 @@
     return allRows.filter(function (r) {
       if (kind === 'expect' && !r.expect) return false;
       if (kind === 'ai' && !r.ai_story) return false;
-      if (kind === 'contact' && !r.contact) return false;
       if (!q) return true;
-      var hay = [r.nickname, r.grade, r.expect, r.ai_story, r.contact]
+      var hay = [r.nickname, r.grade, r.expect, r.ai_story]
         .filter(Boolean)
         .join(' ')
         .toLowerCase();
@@ -229,9 +228,6 @@
           '</td>' +
           '<td class="cell-text" data-label="AI 故事">' +
           (r.ai_story ? '<span class="tag-mini">AI</span><br>' + esc(r.ai_story) : '—') +
-          '</td>' +
-          '<td class="cell-text" style="max-width:150px" data-label="联系">' +
-          esc(r.contact || '—') +
           '</td>' +
           '<td class="cell-ops" data-label="操作">' +
           '<button class="op" data-act="toggle" data-id="' +
@@ -332,7 +328,7 @@
     var rows = currentRows();
     if (!rows.length) return toast('没有可导出的内容');
 
-    var head = ['序号', '提交时间', '昵称', '年级专业', '对活动的期待', 'AI 故事', '联系方式', '是否公开展示'];
+    var head = ['序号', '提交时间', '昵称', '年级专业', '对活动的期待', 'AI 故事', '是否公开展示'];
     var lines = [head.map(csvCell).join(',')];
 
     rows.forEach(function (r, i) {
@@ -344,7 +340,6 @@
           r.grade,
           r.expect,
           r.ai_story,
-          r.contact,
           r.publish ? '是' : '否',
         ]
           .map(csvCell)

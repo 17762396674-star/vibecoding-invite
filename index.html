@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>拥抱 AI，拒绝焦虑 · VibeCoding 建站实战｜编程爱好者协会</title>
-<meta name="description" content="编程爱好者协会技术分享：五十分钟，把「想做个网站」到「把网址发给别人」之间的每一步讲清楚。全程演示，人来就行。" />
+<title>拥抱 AI，拒绝焦虑 · VibeCoding 建站实战｜江西飞行学院编程爱好者协会</title>
+<meta name="description" content="江西飞行学院编程爱好者协会技术分享：五十分钟，把「想做个网站」到「把网址发给别人」之间的每一步讲清楚。全程演示，人来就行。" />
 <meta name="theme-color" content="#f6f3ec" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="拥抱 AI，拒绝焦虑 · VibeCoding 建站实战" />
@@ -18,14 +18,17 @@
 
 <!-- 未配置数据库时显示；配置好 assets/js/config.js 后自动消失 -->
 <div class="demo-bar" id="demoBar" hidden>
-  演示模式 · 还没有连接数据库，下面的数据只存在这台设备上。配置方法见 README 第 3 节。
+  演示模式 · 还没连数据库，现在写的内容只存在你自己的设备上，别人看不到。配置方法见 README 第 3 节。
 </div>
 
 <header class="nav" id="nav">
   <div class="wrap nav__inner">
-    <a class="brand" href="#top">
-      <span class="brand__mark" aria-hidden="true">CA</span>
-      <span>编程爱好者协会</span>
+    <a class="brand" href="#top" aria-label="江西飞行学院编程爱好者协会">
+      <span class="brand__mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21.2 2.8 3.1 11.2l6.9 2.6Z" fill="#fff"/><path d="M21.2 2.8 10 13.8l2.8 7.4Z" fill="#4a5cff"/></svg></span>
+      <span class="brand__name">
+        <span class="brand__school">江西飞行学院</span>
+        <span class="brand__club">编程爱好者协会</span>
+      </span>
     </a>
     <button class="nav__burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="navLinks">
       <span></span><span></span><span></span>
@@ -90,7 +93,8 @@
       <aside class="ticket reveal" style="--d:.2s" aria-label="活动信息">
         <div class="ticket__top">
           <div class="ticket__brand">
-            Coding Association<br />Tech Talk / 2026
+            <img class="ticket__logo" src="assets/logo/jxfi-white.png" alt="江西飞行学院" />
+            <span>TECH TALK · 2026</span>
           </div>
           <div class="ticket__no">NO. 001</div>
         </div>
@@ -115,7 +119,7 @@
           </div>
           <div class="ticket__row">
             <dt>Host</dt>
-            <dd>编程爱好者协会</dd>
+            <dd>江西飞行学院<br />编程爱好者协会</dd>
           </div>
         </dl>
 
@@ -289,7 +293,7 @@
         <div class="head__label"><b>05</b> / 两个问题</div>
         <div>
           <h2>先告诉我两件事，我按你们的答案讲</h2>
-          <p>这不是报名表，是备课表。你写的内容会出现在下面的墙上，也会决定我现场在哪一段多留十分钟。</p>
+          <p>不是报名表，就是想先收一收大家的想法。写下的会出现在下面的墙上，我也能提前知道该讲哪些。</p>
         </div>
       </div>
 
@@ -328,11 +332,6 @@
           <div class="counter" data-counter-for="ai_story">0 / 800</div>
         </div>
 
-        <div class="field">
-          <label for="contact">联系方式 <span class="mono">Private</span> <i>不公开，只用于活动通知</i></label>
-          <input class="input" id="contact" name="contact" type="text" maxlength="60" placeholder="微信 / 邮箱，可不填" autocomplete="off" />
-        </div>
-
         <div class="alert alert--err" id="formErr" role="alert"></div>
         <div class="alert alert--ok" id="formOk" role="status"></div>
 
@@ -340,7 +339,7 @@
           <button class="btn btn--light" type="submit" id="submitBtn">提交，上墙</button>
           <p class="form__note">
             两题至少答一题，可以都答。提交后立刻出现在下面的汇总墙。
-            联系方式不会公开，只有管理员能看到，见 <a href="#privacy">数据说明</a>。
+            昵称随便写，不用留任何联系方式，见 <a href="#privacy">数据说明</a>。
           </p>
         </div>
       </form>
@@ -353,8 +352,8 @@
       <div class="head reveal">
         <div class="head__label"><b>06</b> / 汇总墙</div>
         <div>
-          <h2>大家已经写下的</h2>
-          <p>每一条都是真的，来自要来的人。你提交之后，也会出现在这里。</p>
+          <h2>大家写下的</h2>
+          <p>这里全是真实回答，不编、不凑数。现在还没人写——第一个写的人，会决定我先讲哪一段。</p>
         </div>
       </div>
 
@@ -371,7 +370,7 @@
 
       <div class="empty" id="wallEmpty" hidden>
         <b>还没有人写</b>
-        第一个写的人，会决定这场活动讲哪一段。
+        你写第一条，它就会出现在这里。
       </div>
 
       <div class="wall__more" id="wallMore" hidden>
@@ -392,7 +391,7 @@
       </div>
 
       <ol class="flow reveal">
-        <li>你填写<span>昵称、两题回答、可选的联系方式</span></li>
+        <li>你填写<span>昵称、年级、两题回答</span></li>
         <li>写入数据库<span>访客只有写入权限，读不到任何一条记录</span></li>
         <li>两个出口<span>公开墙只读公开列；管理后台读全表，只有你能进</span></li>
       </ol>
@@ -410,7 +409,6 @@
         <div class="privacy__box">
           <h4>不公开</h4>
           <ul>
-            <li>联系方式（只有管理员能看）</li>
             <li>完整明细表（只有管理员能导出）</li>
             <li>删除与隐藏权限（只有管理员有）</li>
           </ul>
@@ -434,7 +432,13 @@
 
 <footer class="foot">
   <div class="wrap foot__inner">
-    <div>编程爱好者协会 · 技术分享 第 01 期<br />页面里的每一段文字，都可以在 <span class="mono" style="font-size:.9em">index.html</span> 里改。</div>
+    <div class="foot__id">
+      <img class="foot__logo" src="assets/logo/jxfi-ink.png" alt="江西飞行学院" />
+      <div>
+        江西飞行学院编程爱好者协会 · 技术分享 第 01 期<br />
+        <span class="foot__note">页面里的每一段文字，都可以在 <span class="mono" style="font-size:.9em">index.html</span> 里改。</span>
+      </div>
+    </div>
     <a class="foot__admin" href="admin.html">管理入口</a>
   </div>
 </footer>

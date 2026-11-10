@@ -345,8 +345,11 @@ table.rows td.cell-name {
   .admin-bar__inner {
     gap: 8px;
   }
-  .admin-bar .brand span:last-child {
-    font-size: 0.88rem;
+  .admin-bar .brand__club {
+    font-size: 0.84rem;
+  }
+  .admin-bar .brand__school {
+    font-size: 0.5rem;
   }
   .admin-bar__right {
     gap: 6px;
@@ -430,4 +433,25 @@ table.rows td.cell-name {
     flex: 1;
     padding: 7px 10px;
   }
+}
+
+/* ---------- 登录页署名 ---------- */
+.login__credit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  margin-top: 18px;
+  padding: 0 12px;
+  font-size: 0.74rem;
+  line-height: 1.5;
+  color: var(--muted);
+  text-align: center;
+}
+
+.login__credit img {
+  height: 22px;
+  width: auto;
+  opacity: 0.72;
 }

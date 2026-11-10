@@ -21,12 +21,10 @@ create table if not exists public.responses (
   grade      text,
   expect     text,          -- 问卷 A：对活动的期待
   ai_story   text,          -- 问卷 B：AI 故事
-  contact    text,          -- 联系方式：永不公开，仅管理员
   publish    boolean not null default true
 );
 
 comment on table  public.responses is '活动问卷回收表';
-comment on column public.responses.contact is '联系方式：不进入公开 RPC，只有管理员可读';
 
 -- 约束：挡住空提交和超长内容（前端也会校验，这里是最后一道）
 alter table public.responses drop constraint if exists responses_len_check;
@@ -36,7 +34,6 @@ alter table public.responses
     and coalesce(char_length(grade), 0) <= 30
     and coalesce(char_length(expect), 0) <= 800
     and coalesce(char_length(ai_story), 0) <= 800
-    and coalesce(char_length(contact), 0) <= 60
   );
 
 alter table public.responses drop constraint if exists responses_min_check;
@@ -116,7 +113,7 @@ create policy "owner_deletes"
 -- ===========================================================================
 --  4. 公开读取接口
 --     访客不能查表，但可以调用这两个函数。函数以定义者身份执行，
---     绕过 RLS，并且只返回「可以公开」的列 —— contact 不在返回列里。
+--     绕过 RLS，并且只返回「可以公开」的列。
 -- ===========================================================================
 create or replace function public.answers_feed(
   p_limit  int  default 12,

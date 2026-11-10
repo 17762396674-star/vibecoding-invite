@@ -128,7 +128,7 @@
 
   /* 草稿：避免刷新丢内容 */
   if (form) {
-    var fields = ['nickname', 'grade', 'expect', 'ai_story', 'contact'];
+    var fields = ['nickname', 'grade', 'expect', 'ai_story'];
     try {
       var raw = localStorage.getItem(DRAFT_KEY);
       if (raw) {
@@ -172,7 +172,6 @@
       var grade = (form.elements['grade'].value || '').trim();
       var expect = (form.elements['expect'].value || '').trim();
       var aiStory = (form.elements['ai_story'].value || '').trim();
-      var contact = (form.elements['contact'].value || '').trim();
 
       if (!expect && !aiStory) {
         setAlert(errEl, '两题至少写一题，随便写两句也行。');
@@ -194,7 +193,6 @@
           grade: grade,
           expect: expect,
           ai_story: aiStory,
-          contact: contact,
         });
 
         setAlert(
@@ -207,7 +205,6 @@
         // 清空（保留昵称，方便再写一条）
         form.elements['expect'].value = '';
         form.elements['ai_story'].value = '';
-        form.elements['contact'].value = '';
         $$('.counter').forEach(function (c) {
           var f = document.getElementById(c.getAttribute('data-counter-for'));
           if (f) f.dispatchEvent(new Event('input'));
