@@ -34,7 +34,7 @@
       <a class="nav__link" href="#topics">讲什么</a>
       <a class="nav__link" href="#gains">会带走</a>
       <a class="nav__link" href="#prep">准备</a>
-      <a class="nav__cta" href="#survey">写上你的期待</a>
+      <a class="nav__cta" href="#survey">填一下问卷</a>
     </nav>
   </div>
 </header>
@@ -77,7 +77,7 @@
 
         <div class="hero__actions reveal" style="--d:.25s">
           <a class="btn btn--solid" href="#survey">
-            写上你的期待
+            填一下问卷
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
           <a class="btn btn--ghost" href="#topics">看讲什么</a>
@@ -241,22 +241,26 @@
   <section class="section section--night survey" id="survey">
     <div class="wrap">
       <div class="head reveal">
-        <div class="head__label"><b>04</b> / 两个问题</div>
+        <div class="head__label"><b>04</b> / 六个问题</div>
         <div>
           <h2>最后，是我按你们的想法讲</h2>
-          <p>不是报名表。两题随便写，开讲前我过一遍：哪一段写的人多，哪一段就多讲一会儿。</p>
+          <p>不是报名表。六题不用全写，哪题有话说就写哪题；开讲前我全部看一遍，写的人多的那部分多讲一会儿。</p>
         </div>
       </div>
 
       <form class="form reveal" id="form" novalidate>
+        <div class="hp" aria-hidden="true">
+          <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        </div>
+
         <div class="form__row">
           <div class="field">
-            <label for="nickname">怎么称呼你 <span class="mono">Name</span></label>
-            <input class="input" id="nickname" name="nickname" type="text" maxlength="24" placeholder="比如：244软件彭弘炜" autocomplete="nickname" />
+            <label for="full_name">姓名 <span class="mono">Required</span> <i>填真名</i></label>
+            <input class="input" id="full_name" name="full_name" type="text" maxlength="24" placeholder="比如：彭弘炜" autocomplete="name" required />
           </div>
           <div class="field">
             <label for="grade">年级 / 专业 <span class="mono">Optional</span></label>
-            <input class="input" id="grade" name="grade" type="text" maxlength="30" placeholder="大二 · 计算机，可不填" />
+            <input class="input" id="grade" name="grade" type="text" maxlength="30" placeholder="比如：244软件" autocomplete="off" />
           </div>
         </div>
 
@@ -265,11 +269,8 @@
             <div class="qblock__title"><span class="mono">A</span> 你对这场活动最想了解什么？</div>
             <div class="qblock__hint">你现在卡在哪一步，也可以直接写</div>
           </div>
-          <label class="field" for="expect" style="gap:0">
-            <span class="hp"><input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" /></span>
-            <textarea class="textarea" id="expect" name="expect" maxlength="800" placeholder="比如：我想知道没有服务器能不能做登录；或者：我总是传到 GitHub 就白屏，卡了两周。"></textarea>
-          </label>
-          <div class="counter" data-counter-for="expect">0 / 800</div>
+          <textarea class="textarea" id="want" name="want" maxlength="800" aria-label="问题 A：你对这场活动最想了解什么？" placeholder="比如：我想知道没有服务器能不能做登录；或者：我总是传到 GitHub 就白屏，卡了两周。"></textarea>
+          <div class="counter" data-counter-for="want">0 / 800</div>
         </div>
 
         <div class="qblock">
@@ -277,10 +278,44 @@
             <div class="qblock__title"><span class="mono">B</span> 你平时用 AI 做过什么有意思的事？</div>
             <div class="qblock__hint">或者：它具体帮过你什么忙</div>
           </div>
-          <label class="field" for="ai_story" style="gap:0">
-            <textarea class="textarea" id="ai_story" name="ai_story" maxlength="800" placeholder="比如：让 AI 把我一学期的实验报告排成一份 PDF；或者：它帮我把导师的语音转成了会议记录。"></textarea>
-          </label>
+          <textarea class="textarea" id="ai_story" name="ai_story" maxlength="800" aria-label="问题 B：你平时用 AI 做过什么有意思的事？" placeholder="比如：让 AI 把我一学期的实验报告排成一份 PDF；或者：它帮我把导师的语音转成了会议记录。"></textarea>
           <div class="counter" data-counter-for="ai_story">0 / 800</div>
+        </div>
+
+        <div class="qblock">
+          <div class="qblock__head">
+            <div class="qblock__title"><span class="mono">C</span> 你是否担心 AI 的发展会冲击编程相关岗位？你最大的顾虑是什么？</div>
+            <div class="qblock__hint">真实想法都可以写</div>
+          </div>
+          <textarea class="textarea" id="worry" name="worry" maxlength="800" aria-label="问题 C：你是否担心 AI 的发展会冲击编程相关岗位？你最大的顾虑是什么？" placeholder="比如：担心以后 AI 直接替代程序员，学编程没用了；或者：不知道以后该往哪个方向学。"></textarea>
+          <div class="counter" data-counter-for="worry">0 / 800</div>
+        </div>
+
+        <div class="qblock">
+          <div class="qblock__head">
+            <div class="qblock__title"><span class="mono">D</span> 如果用 AI 快速搭建一个网站，你最想做什么类型的站点？</div>
+            <div class="qblock__hint">脑洞越大越好</div>
+          </div>
+          <textarea class="textarea" id="site_idea" name="site_idea" maxlength="800" aria-label="问题 D：如果用 AI 快速搭建一个网站，你最想做什么类型的站点？" placeholder="比如：个人作品集主页 / 社团活动介绍站 / 兴趣分享小站 / 实用工具网站"></textarea>
+          <div class="counter" data-counter-for="site_idea">0 / 800</div>
+        </div>
+
+        <div class="qblock">
+          <div class="qblock__head">
+            <div class="qblock__title"><span class="mono">E</span> 目前你最常用哪款 AI 工具？使用中遇到过哪些明显的短板？</div>
+            <div class="qblock__hint">可以顺便说说你踩过的坑</div>
+          </div>
+          <textarea class="textarea" id="tool_gap" name="tool_gap" maxlength="800" aria-label="问题 E：目前你最常用哪款 AI 工具？使用中遇到过哪些明显的短板？" placeholder="比如：生成的代码经常有 bug；复杂需求 AI 理解不了；回答太笼统不落地。"></textarea>
+          <div class="counter" data-counter-for="tool_gap">0 / 800</div>
+        </div>
+
+        <div class="qblock">
+          <div class="qblock__head">
+            <div class="qblock__title"><span class="mono">F</span> 之后你还想在社团开展哪些类型的 AI 技术分享沙龙？</div>
+            <div class="qblock__hint">所有想法都欢迎提</div>
+          </div>
+          <textarea class="textarea" id="salon_wish" name="salon_wish" maxlength="800" aria-label="问题 F：之后你还想在社团开展哪些类型的 AI 技术分享沙龙？" placeholder="比如：前端实战、AI 辅助做项目、服务器部署、竞赛备赛技巧。"></textarea>
+          <div class="counter" data-counter-for="salon_wish">0 / 800</div>
         </div>
 
         <div class="alert alert--err" id="formErr" role="alert"></div>
@@ -288,7 +323,7 @@
 
         <div class="form__foot">
           <button class="btn btn--light" type="submit" id="submitBtn">提交</button>
-          <p class="form__note">两题至少答一题，可以都答。</p>
+          <p class="form__note">姓名必填；六题至少写一题，写几题都行。</p>
         </div>
       </form>
     </div>
@@ -300,7 +335,7 @@
       <h2 class="reveal">今晚你带走的，<br />不是一个网址，是「我也能做」</h2>
       <p class="reveal">带不带电脑都行。回去自己动手时卡住了，群里问，我一条条看。</p>
       <div class="end__actions reveal">
-        <a class="btn btn--solid" href="#survey">写上你的期待</a>
+        <a class="btn btn--solid" href="#survey">填一下问卷</a>
       </div>
     </div>
   </section>

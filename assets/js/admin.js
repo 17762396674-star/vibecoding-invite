@@ -9,6 +9,16 @@
     return (r || document).querySelector(s);
   };
 
+  /* 六道问题：key 与数据库列一一对应 */
+  var QUESTIONS = [
+    { key: 'want', tag: 'A', title: '你对这场活动最想了解什么？', short: '最想了解什么' },
+    { key: 'ai_story', tag: 'B', title: '你平时用 AI 做过什么有意思的事？', short: '用 AI 做过什么' },
+    { key: 'worry', tag: 'C', title: '你是否担心 AI 的发展会冲击编程相关岗位？你最大的顾虑是什么？', short: '担心 AI 冲击岗位' },
+    { key: 'site_idea', tag: 'D', title: '如果用 AI 快速搭建一个网站，你最想做什么类型的站点？', short: '想做哪类站' },
+    { key: 'tool_gap', tag: 'E', title: '目前你最常用哪款 AI 工具？使用中遇到过哪些明显的短板？', short: '工具与短板' },
+    { key: 'salon_wish', tag: 'F', title: '之后你还想在社团开展哪些类型的 AI 分享沙龙？', short: '想听哪些沙龙' },
+  ];
+
   var cfg = window.APP_CONFIG || {};
   var configured = !!cfg.SUPABASE_URL && !!cfg.SUPABASE_ANON_KEY && !!window.supabase;
 
@@ -118,13 +128,19 @@
   });
 
   /* ---------------- 拉数据 ---------------- */
+  var COLS = ['id', 'created_at', 'full_name', 'grade'].concat(
+    QUESTIONS.map(function (q) {
+      return q.key;
+    })
+  );
+
   async function load() {
-    rowsEl.innerHTML = '<tr><td colspan="6" style="padding:22px 12px;color:#7c766a">读取中…</td></tr>';
+    rowsEl.innerHTML = '<tr><td colspan="5" style="padding:22px 12px;color:#7c766a">读取中…</td></tr>';
     var res = await client
       .from('responses')
-      .select('id,created_at,nickname,grade,expect,ai_story')
+      .select(COLS.join(','))
       .order('created_at', { ascending: false })
-      .limit(1000);
+      .limit(2000);
 
     if (res.error) {
       rowsEl.innerHTML = '';
@@ -134,26 +150,51 @@
     }
     allRows = res.data || [];
     renderStats();
+    renderKindOptions();
     render();
   }
 
+  /* 每题填了多少人，直接写在筛选框的选项上 */
+  function countBy(key) {
+    return allRows.filter(function (r) {
+      return !!(r[key] && String(r[key]).trim());
+    }).length;
+  }
+
+  function renderKindOptions() {
+    var sel = $('#kind');
+    Array.prototype.forEach.call(sel.options, function (opt) {
+      if (opt.value === 'all') {
+        opt.textContent = '全部回答（' + allRows.length + ' 份）';
+        return;
+      }
+      var q = QUESTIONS.filter(function (x) {
+        return x.key === opt.value;
+      })[0];
+      if (q) opt.textContent = '只看 ' + q.tag + ' · ' + q.short + '（' + countBy(q.key) + '）';
+    });
+  }
+
+  function answeredCount(r) {
+    return QUESTIONS.filter(function (q) {
+      return !!(r[q.key] && String(r[q.key]).trim());
+    }).length;
+  }
+
   function renderStats() {
-    var t = allRows.length;
-    var e = allRows.filter(function (r) {
-      return !!r.expect;
-    }).length;
-    var a = allRows.filter(function (r) {
-      return !!r.ai_story;
-    }).length;
     var today = new Date().toDateString();
-    var d = allRows.filter(function (r) {
+    $('#stTotal').textContent = allRows.length;
+    $('#stToday').textContent = allRows.filter(function (r) {
       return new Date(r.created_at).toDateString() === today;
     }).length;
+    $('#stFull').textContent = allRows.filter(function (r) {
+      return answeredCount(r) === QUESTIONS.length;
+    }).length;
 
-    $('#stTotal').textContent = t;
-    $('#stExpect').textContent = e;
-    $('#stAi').textContent = a;
-    $('#stToday').textContent = d;
+    var sum = allRows.reduce(function (a, r) {
+      return a + answeredCount(r);
+    }, 0);
+    $('#stAvg').textContent = allRows.length ? (sum / allRows.length).toFixed(1) : '—';
   }
 
   function esc(s) {
@@ -186,10 +227,14 @@
     var kind = $('#kind').value;
 
     return allRows.filter(function (r) {
-      if (kind === 'expect' && !r.expect) return false;
-      if (kind === 'ai' && !r.ai_story) return false;
+      if (kind !== 'all' && !(r[kind] && String(r[kind]).trim())) return false;
       if (!q) return true;
-      var hay = [r.nickname, r.grade, r.expect, r.ai_story]
+      var hay = [r.full_name, r.grade]
+        .concat(
+          QUESTIONS.map(function (x) {
+            return r[x.key];
+          })
+        )
         .filter(Boolean)
         .join(' ')
         .toLowerCase();
@@ -197,8 +242,39 @@
     });
   }
 
+  function answerHtml(r, onlyKey) {
+    var qs = onlyKey
+      ? QUESTIONS.filter(function (q) {
+          return q.key === onlyKey;
+        })
+      : QUESTIONS;
+
+    var parts = qs
+      .filter(function (q) {
+        return r[q.key] && String(r[q.key]).trim();
+      })
+      .map(function (q) {
+        return (
+          '<div class="ans">' +
+          '<span class="ans__k" title="' +
+          esc(q.title) +
+          '">' +
+          q.tag +
+          '</span>' +
+          '<span class="ans__t">' +
+          esc(r[q.key]) +
+          '</span>' +
+          '</div>'
+        );
+      });
+
+    return parts.length ? parts.join('') : '—';
+  }
+
   function render() {
     var rows = currentRows();
+    var kind = $('#kind').value;
+
     if (!rows.length) {
       rowsEl.innerHTML = '';
       tableEmpty.hidden = false;
@@ -215,17 +291,14 @@
           '<td class="cell-nowrap" data-label="时间">' +
           fmt(r.created_at) +
           '</td>' +
-          '<td class="cell-name" data-label="昵称">' +
-          esc(r.nickname) +
+          '<td class="cell-name" data-label="姓名">' +
+          esc(r.full_name || '—') +
           '</td>' +
-          '<td class="cell-text" style="max-width:132px;min-width:104px" data-label="年级">' +
+          '<td class="cell-text" style="max-width:120px" data-label="年级专业">' +
           esc(r.grade || '—') +
           '</td>' +
-          '<td class="cell-text" data-label="期待">' +
-          (r.expect ? '<span class="tag-mini">期待</span><br>' + esc(r.expect) : '—') +
-          '</td>' +
-          '<td class="cell-text" data-label="AI 故事">' +
-          (r.ai_story ? '<span class="tag-mini">AI</span><br>' + esc(r.ai_story) : '—') +
+          '<td class="cell-text" data-label="回答">' +
+          answerHtml(r, kind === 'all' ? null : kind) +
           '</td>' +
           '<td class="cell-ops" data-label="操作">' +
           '<button class="op op--danger" data-act="del" data-id="' +
@@ -253,7 +326,18 @@
     if (!row) return;
 
     if (act === 'del') {
-      if (!window.confirm('删除这条记录？不可恢复。\n\n' + (row.nickname || '') + '：' + (row.expect || row.ai_story || '').slice(0, 40) + '…')) return;
+      var preview = QUESTIONS.map(function (q) {
+        return row[q.key];
+      })
+        .filter(Boolean)
+        .join(' ')
+        .slice(0, 40);
+      if (
+        !window.confirm(
+          '删除这条记录？不可恢复。\n\n' + (row.full_name || '') + '：' + preview + '…'
+        )
+      )
+        return;
       btn.disabled = true;
       var r2 = await client.from('responses').delete().eq('id', id);
       btn.disabled = false;
@@ -262,6 +346,7 @@
         return r.id !== id;
       });
       renderStats();
+      renderKindOptions();
       render();
       toast('已删除');
     }
@@ -308,19 +393,21 @@
     var rows = currentRows();
     if (!rows.length) return toast('没有可导出的内容');
 
-    var head = ['序号', '提交时间', '昵称', '年级专业', '对活动的期待', 'AI 故事'];
+    var head = ['序号', '提交时间', '姓名', '年级专业'].concat(
+      QUESTIONS.map(function (q) {
+        return q.tag + ' ' + q.title;
+      })
+    );
     var lines = [head.map(csvCell).join(',')];
 
     rows.forEach(function (r, i) {
       lines.push(
-        [
-          i + 1,
-          fmt(r.created_at),
-          r.nickname,
-          r.grade,
-          r.expect,
-          r.ai_story,
-        ]
+        [i + 1, fmt(r.created_at), r.full_name, r.grade]
+          .concat(
+            QUESTIONS.map(function (q) {
+              return r[q.key];
+            })
+          )
           .map(csvCell)
           .join(',')
       );

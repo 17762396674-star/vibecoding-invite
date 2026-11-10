@@ -91,8 +91,13 @@
   var btn = $('#submitBtn');
   var errEl = $('#formErr');
   var okEl = $('#formOk');
-  var DRAFT_KEY = 'invite_draft_v1';
+  var DRAFT_KEY = 'invite_draft_v2';
   var MAX_LEN = (window.APP_CONFIG && window.APP_CONFIG.MAX_LEN) || 800;
+
+  // 六道问题，按页面顺序
+  var Q_KEYS = ['want', 'ai_story', 'worry', 'site_idea', 'tool_gap', 'salon_wish'];
+  var ALL_KEYS = ['full_name', 'grade'].concat(Q_KEYS);
+  var MIN_ANSWER = 4;
 
   function setAlert(el, msg) {
     if (!el) return;
@@ -114,7 +119,7 @@
   });
 
   if (form) {
-    var fields = ['nickname', 'grade', 'expect', 'ai_story'];
+    var fields = ALL_KEYS;
     try {
       var raw = localStorage.getItem(DRAFT_KEY);
       if (raw) {
@@ -146,6 +151,11 @@
       draftTimer = setTimeout(saveDraft, 400);
     });
 
+    var val = function (k) {
+      var el = form.elements[k];
+      return el ? (el.value || '').trim() : '';
+    };
+
     form.addEventListener('submit', async function (e) {
       e.preventDefault();
       setAlert(errEl, '');
@@ -154,32 +164,50 @@
       var hp = form.elements['website'];
       if (hp && hp.value) return; // 机器人
 
-      var nickname = (form.elements['nickname'].value || '').trim();
-      var grade = (form.elements['grade'].value || '').trim();
-      var expect = (form.elements['expect'].value || '').trim();
-      var aiStory = (form.elements['ai_story'].value || '').trim();
+      var fullName = val('full_name');
 
-      if (!expect && !aiStory) {
-        setAlert(errEl, '两题至少写一题，随便写两句也行。');
-        (expect === '' ? $('#expect') : $('#ai_story')).focus();
+      if (!fullName) {
+        setAlert(errEl, '姓名还没写。写真名就行，方便开讲时对上人。');
+        form.elements['full_name'].focus();
         return;
       }
-      if ((expect && expect.length < 4) || (aiStory && aiStory.length < 4)) {
-        setAlert(errEl, '再多写几个字吧，太短了看不清你到底想说什么。');
+      if (fullName.length < 2) {
+        setAlert(errEl, '姓名至少两个字。');
+        form.elements['full_name'].focus();
         return;
       }
+
+      // 六题至少答一题，且有内容的那题不能只有两三个字
+      var answered = Q_KEYS.filter(function (k) {
+        return val(k).length > 0;
+      });
+      if (!answered.length) {
+        setAlert(errEl, '六道题一题都没写。随便挑一题说两句也行。');
+        form.elements[Q_KEYS[0]].focus();
+        return;
+      }
+      var tooShort = answered.some(function (k) {
+        return val(k).length < MIN_ANSWER;
+      });
+      if (tooShort) {
+        setAlert(errEl, '有一题写得太短了，再补几个字吧，太短看不出你想说什么。');
+        return;
+      }
+
+      var payload = {
+        full_name: fullName,
+        grade: val('grade'),
+      };
+      Q_KEYS.forEach(function (k) {
+        payload[k] = val(k);
+      });
 
       btn.disabled = true;
       var old = btn.textContent;
       btn.textContent = '正在提交…';
 
       try {
-        await window.Store.submit({
-          nickname: nickname,
-          grade: grade,
-          expect: expect,
-          ai_story: aiStory,
-        });
+        await window.Store.submit(payload);
 
         setAlert(
           okEl,
@@ -188,9 +216,11 @@
             : '提交成功，我收到了。开讲前会看一遍。'
         );
 
-        // 清空两题，保留称呼，方便再写一条
-        form.elements['expect'].value = '';
-        form.elements['ai_story'].value = '';
+        // 清空六题，保留姓名和年级，方便再写一条
+        Q_KEYS.forEach(function (k) {
+          var el = form.elements[k];
+          if (el) el.value = '';
+        });
         $$('.counter').forEach(function (c) {
           var f = document.getElementById(c.getAttribute('data-counter-for'));
           if (f) f.dispatchEvent(new Event('input'));

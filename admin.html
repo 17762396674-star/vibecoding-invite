@@ -59,17 +59,21 @@
   <section class="wrap" id="panelView" hidden>
     <div class="stats">
       <div class="stat"><b id="stTotal">—</b><span>总份数</span></div>
-      <div class="stat"><b id="stExpect">—</b><span>填了期待</span></div>
-      <div class="stat"><b id="stAi">—</b><span>填了 AI 故事</span></div>
       <div class="stat"><b id="stToday">—</b><span>今天新增</span></div>
+      <div class="stat"><b id="stFull">—</b><span>六题全写</span></div>
+      <div class="stat"><b id="stAvg">—</b><span>平均答几题</span></div>
     </div>
 
     <div class="toolbar">
-      <input class="input" id="q" type="search" placeholder="搜昵称、年级、内容" aria-label="搜索" />
+      <input class="input" id="q" type="search" placeholder="搜姓名、年级、回答内容" aria-label="搜索" />
       <select class="input" id="kind" aria-label="筛选类型">
-        <option value="all">全部</option>
-        <option value="expect">只看期待</option>
-        <option value="ai">只看 AI 故事</option>
+        <option value="all">全部回答</option>
+        <option value="want">只看 A · 最想了解什么</option>
+        <option value="ai_story">只看 B · 用 AI 做过什么</option>
+        <option value="worry">只看 C · 担心 AI 冲击岗位</option>
+        <option value="site_idea">只看 D · 想做什么站</option>
+        <option value="tool_gap">只看 E · 工具与短板</option>
+        <option value="salon_wish">只看 F · 想听哪些沙龙</option>
       </select>
       <button class="btn btn--ghost btn--sm" id="reloadBtn">刷新</button>
       <div class="toolbar__right">
@@ -83,11 +87,10 @@
         <thead>
           <tr>
             <th style="width:118px">时间</th>
-            <th style="width:130px">昵称</th>
-            <th style="width:132px">年级专业</th>
-            <th>对活动的期待</th>
-            <th>AI 故事</th>
-            <th style="width:104px">操作</th>
+            <th style="width:110px">姓名</th>
+            <th style="width:112px">年级专业</th>
+            <th>回答</th>
+            <th style="width:88px">操作</th>
           </tr>
         </thead>
         <tbody id="rows"></tbody>
@@ -96,8 +99,8 @@
     </div>
 
     <p class="admin-note">
-      导出为 CSV（带 BOM，Excel 双击直接打开，不会乱码）。导出的内容只保存在你自己的电脑上，
-      不要转发到群里。<br />
+      导出为 CSV（带 BOM，Excel 双击直接打开，不会乱码），一列一题，按题目顺序排列。
+      导出的内容只保存在你自己的电脑上，不要转发到群里。<br />
       删除是不可恢复的，删之前会二次确认。
     </p>
   </section>

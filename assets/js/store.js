@@ -55,10 +55,14 @@
 
     async submit(payload) {
       var row = {
-        nickname: payload.nickname || '匿名同学',
-        grade: payload.grade || null,
-        expect: payload.expect || null,
-        ai_story: payload.ai_story || null,
+        full_name: (payload.full_name || '').trim() || '未署名',
+        grade: (payload.grade || '').trim() || null,
+        want: (payload.want || '').trim() || null,
+        ai_story: (payload.ai_story || '').trim() || null,
+        worry: (payload.worry || '').trim() || null,
+        site_idea: (payload.site_idea || '').trim() || null,
+        tool_gap: (payload.tool_gap || '').trim() || null,
+        salon_wish: (payload.salon_wish || '').trim() || null,
       };
 
       if (!hasRemote) {

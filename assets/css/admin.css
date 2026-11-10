@@ -288,17 +288,36 @@ table.rows td.cell-name {
   background: #fbeee3;
 }
 
-.tag-mini {
-  display: inline-block;
+/* 一条回答：左边字母标签，右边正文 */
+.ans {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 8px;
+  padding: 2px 0 6px;
+  max-width: 66ch;
+}
+.ans + .ans {
+  margin-top: 2px;
+  padding-top: 7px;
+  border-top: 1px dashed var(--line);
+}
+.ans__k {
   font-family: var(--font-mono);
-  font-size: 0.56rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  border: 1px solid var(--line);
+  font-size: 0.62rem;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--accent, #4a5cff);
+  background: rgba(74, 92, 255, 0.09);
   border-radius: 4px;
-  padding: 1px 5px;
-  color: var(--muted);
-  margin-bottom: 4px;
+  padding: 1px 0;
+  height: 18px;
+  margin-top: 2px;
+}
+.ans__t {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 0.86rem;
+  color: var(--ink-2);
 }
 
 .is-hidden-row td {
