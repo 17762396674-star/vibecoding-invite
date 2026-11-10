@@ -167,12 +167,12 @@
       var fullName = val('full_name');
 
       if (!fullName) {
-        setAlert(errEl, '姓名还没写。写真名就行，方便开讲时对上人。');
+        setAlert(errEl, '姓名还没写。');
         form.elements['full_name'].focus();
         return;
       }
       if (fullName.length < 2) {
-        setAlert(errEl, '姓名至少两个字。');
+        setAlert(errEl, '姓名再多写几个字。');
         form.elements['full_name'].focus();
         return;
       }
