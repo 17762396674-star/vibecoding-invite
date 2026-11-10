@@ -178,6 +178,11 @@ select {
   border-bottom: 1px solid var(--line);
 }
 
+/* 相邻两个浅色区之间不重复画线，否则接缝处是 2px 的双线 */
+.section--paper2 + .section--paper2 {
+  border-top: 0;
+}
+
 .rule {
   height: 1px;
   background: var(--line);
@@ -412,6 +417,24 @@ select {
   position: relative;
   padding: clamp(38px, 6vw, 72px) 0 clamp(56px, 8vw, 96px);
   overflow: hidden;
+  border-bottom: 1px solid var(--line);
+}
+
+/* 极淡的网点，给纸面一点质感；向下渐隐，不抢正文 */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(18, 17, 15, 0.055) 1px, transparent 1px);
+  background-size: 22px 22px;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.45) 58%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.45) 58%, transparent 100%);
+  pointer-events: none;
+}
+
+.hero > .wrap {
+  position: relative;
+  z-index: 1;
 }
 
 .hero__grid {
@@ -461,19 +484,10 @@ select {
 .hero h1 em {
   font-style: normal;
   color: var(--accent);
-  position: relative;
   white-space: nowrap;
-}
-
-.hero h1 em::after {
-  content: "";
-  position: absolute;
-  left: -2px;
-  right: -2px;
-  bottom: 0.1em;
-  height: 0.07em;
-  background: var(--accent);
-  opacity: 0.28;
+  /* 淡蓝色块只压住字的下半截，像记号笔划过 */
+  background: linear-gradient(transparent 56%, var(--accent-soft) 56%);
+  padding: 0 0.04em;
 }
 
 .hero__en {
@@ -716,6 +730,28 @@ select {
   line-height: 1.5;
 }
 
+/* 票根底部的条码，纯装饰 */
+.ticket__code {
+  position: relative;
+  height: 34px;
+  margin-top: 22px;
+  border-radius: 3px;
+  opacity: 0.62;
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.9) 0 2px,
+    transparent 2px 3px,
+    rgba(255, 255, 255, 0.9) 3px 4px,
+    transparent 4px 7px,
+    rgba(255, 255, 255, 0.9) 7px 11px,
+    transparent 11px 13px,
+    rgba(255, 255, 255, 0.9) 13px 14px,
+    transparent 14px 19px
+  );
+  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 58%, rgba(0, 0, 0, 0.22) 100%);
+  mask-image: linear-gradient(90deg, #000 0%, #000 58%, rgba(0, 0, 0, 0.22) 100%);
+}
+
 .ticket__foot {
   position: relative;
   margin-top: 24px;
@@ -753,14 +789,32 @@ select {
   display: grid;
   grid-template-columns: minmax(0, 56px) minmax(0, 1fr) minmax(0, 0.9fr);
   gap: clamp(14px, 3vw, 40px);
-  padding: 26px 0;
+  padding: 26px 0 26px 0;
   border-bottom: 1px solid var(--line);
   align-items: baseline;
+  position: relative;
   transition: background 0.25s ease, padding-left 0.25s ease;
 }
-.topic:hover {
-  background: linear-gradient(90deg, rgba(233, 236, 255, 0.55), transparent 62%);
-  padding-left: 10px;
+.topic::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.3s ease;
+}
+@media (hover: hover) {
+  .topic:hover {
+    background: linear-gradient(90deg, rgba(233, 236, 255, 0.55), transparent 62%);
+    padding-left: 10px;
+  }
+  .topic:hover::before {
+    transform: scaleY(1);
+  }
 }
 
 .topic__no {
@@ -799,12 +853,28 @@ select {
   flex-direction: column;
   gap: 12px;
   position: relative;
+  overflow: hidden;
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
-.gain:hover {
-  transform: translateY(-3px);
-  border-color: var(--line-2);
-  box-shadow: 0 20px 40px -30px rgba(18, 17, 15, 0.4);
+.gain::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 2px;
+  width: 0;
+  background: var(--accent);
+  transition: width 0.4s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+@media (hover: hover) {
+  .gain:hover {
+    transform: translateY(-3px);
+    border-color: var(--line-2);
+    box-shadow: 0 20px 40px -30px rgba(18, 17, 15, 0.4);
+  }
+  .gain:hover::before {
+    width: 100%;
+  }
 }
 
 .gain__ic {
@@ -1012,6 +1082,13 @@ select {
   gap: 10px;
   padding-top: 22px;
   border-top: 1px dashed var(--night-line);
+  transition: border-color 0.25s ease;
+}
+.qblock:focus-within {
+  border-top-color: rgba(159, 176, 255, 0.55);
+}
+.qblock:focus-within .qblock__title .mono {
+  color: #cdd5ff;
 }
 
 .qblock__head {
@@ -1044,6 +1121,7 @@ select {
   font-size: 0.68rem;
   color: rgba(255, 255, 255, 0.35);
   letter-spacing: 0.06em;
+  justify-self: end;
 }
 .counter.is-warn {
   color: #ffb38a;
@@ -1099,16 +1177,50 @@ select {
   color: #a9f0c6;
 }
 
+/* 宽屏把六道题排成两列，少滚一半 */
+@media (min-width: 1200px) {
+  .form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 28px;
+    row-gap: 24px;
+  }
+  .form__row,
+  .alert,
+  .form__foot {
+    grid-column: 1 / -1;
+  }
+  .qblock {
+    border-top: 0;
+    padding-top: 0;
+    gap: 8px;
+  }
+  /* 提示语挪到题目下一行，两列左右两个格子高度才对得齐 */
+  .qblock__head {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 3px;
+    min-height: 4.8em;
+  }
+}
+
 /* ---------- 结尾 ---------- */
 .end {
   text-align: center;
   padding: clamp(60px, 9vw, 110px) 0;
 }
 .end h2 {
-  font-size: clamp(1.7rem, 4.6vw, 3rem);
+  font-size: clamp(1.45rem, 5.6vw, 3rem);
   letter-spacing: -0.03em;
-  line-height: 1.18;
+  line-height: 1.22;
   font-weight: 700;
+}
+.end h2 em {
+  font-style: normal;
+  color: var(--accent);
+  white-space: nowrap;
+  background: linear-gradient(transparent 56%, var(--accent-soft) 56%);
+  padding: 0 0.04em;
 }
 .end p {
   margin: 18px auto 0;
@@ -1175,6 +1287,39 @@ select {
   border-color: var(--ink);
 }
 
+/* ---------- 移动端浮动按钮 ---------- */
+.fab {
+  position: fixed;
+  left: 50%;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 70;
+  display: none;
+  align-items: center;
+  gap: 10px;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 999px;
+  padding: 12px 22px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: 0 18px 36px -14px rgba(18, 17, 15, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(16px);
+  transition: opacity 0.26s ease, transform 0.26s ease;
+}
+.fab.is-on {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* 窄屏才生效的强制换行 */
+.br-m {
+  display: none;
+}
+
 /* ---------- Toast ---------- */
 .toast {
   position: fixed;
@@ -1212,6 +1357,7 @@ select {
     gap: 0;
     background: var(--paper-2);
     border-bottom: 1px solid var(--line);
+    box-shadow: 0 26px 44px -34px rgba(18, 17, 15, 0.55);
     padding: 8px var(--gut) 16px;
     margin-left: 0;
   }
@@ -1219,7 +1365,7 @@ select {
     display: flex;
   }
   .nav__link {
-    padding: 12px 0;
+    padding: 13px 0;
     border-bottom: 1px solid var(--line);
     font-size: 0.95rem;
   }
@@ -1229,7 +1375,7 @@ select {
   .nav__cta {
     margin: 14px 0 0;
     justify-content: center;
-    padding: 12px 20px;
+    padding: 13px 20px;
   }
   .nav__burger {
     display: block;
@@ -1237,80 +1383,106 @@ select {
 
   .hero__grid {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 34px;
   }
+  /* 单列时让票根和标题左边缘对齐，比居中更稳 */
   .ticket {
-    max-width: 460px;
+    max-width: 560px;
   }
 
   .head {
     grid-template-columns: 1fr;
-    gap: 14px;
+    gap: 12px;
   }
   .head__label {
     padding-top: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  /* 章节序号后面拖一条细线，窄屏也不散 */
+  .head__label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.16;
   }
 
   .gains {
     grid-template-columns: 1fr;
   }
 
-  .wall {
-    columns: 2;
+  .fab {
+    display: inline-flex;
   }
 }
 
 @media (max-width: 760px) {
+  .section {
+    padding: 52px 0;
+  }
+  .hero {
+    padding-top: 26px;
+    padding-bottom: 52px;
+  }
+
   .topic {
-    grid-template-columns: 40px minmax(0, 1fr);
-    gap: 10px 14px;
-    padding: 20px 0;
+    grid-template-columns: 30px minmax(0, 1fr);
+    gap: 6px 12px;
+    padding: 18px 0;
+    align-items: start;
+  }
+  .topic__no {
+    padding-top: 4px;
+  }
+  .topic__title {
+    font-size: 1.03rem;
   }
   .topic__desc {
     grid-column: 2;
+    margin-top: 2px;
   }
 
   .prep,
-  .privacy,
-  .flow,
   .form__row {
     grid-template-columns: 1fr;
   }
-
-  .flow {
-    gap: 24px;
-  }
-  .flow li + li::after {
-    content: "↓";
-    left: 50%;
-    top: -19px;
-    transform: translateX(-50%);
-  }
-
-  .agenda__body {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-  }
-  .agenda__body p {
-    text-align: left;
-    max-width: none;
-  }
-
-  .wall {
-    columns: 1;
+  .prep__col {
+    padding: 22px 20px;
   }
 
   .hero__meta {
-    gap: 14px 20px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 18px;
+    margin-top: 26px;
+    padding-top: 18px;
   }
-  .hero__meta div {
-    min-width: 40%;
+  /* 时间独占一行，剩下两项并排，避免第三项掉到下一行孤零零的 */
+  .hero__meta div:first-child {
+    grid-column: 1 / -1;
   }
 
   .form {
-    padding: 20px 18px;
+    padding: 20px 16px;
+    gap: 20px;
   }
+  .qblock {
+    padding-top: 18px;
+  }
+  .textarea {
+    min-height: 92px;
+  }
+  .form__foot {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .form__note {
+    text-align: center;
+  }
+
   .btn {
     width: 100%;
   }
@@ -1318,6 +1490,7 @@ select {
   .end__actions {
     flex-direction: column;
   }
+
 }
 
 @media (max-width: 560px) {
@@ -1326,6 +1499,10 @@ select {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
+  }
+  /* 结尾标题在窄屏折成三行，免得贴着屏幕边 */
+  .br-m {
+    display: inline;
   }
 }
 
@@ -1346,9 +1523,6 @@ select {
   .ticket__perf {
     margin: 22px -20px;
   }
-  .agenda {
-    grid-template-columns: 78px minmax(0, 1fr);
-  }
 }
 
 /* ---------- 打印 ---------- */
@@ -1356,6 +1530,7 @@ select {
   .nav,
   .demo-bar,
   .toast,
+  .fab,
   .hero__actions,
   .end__actions {
     display: none !important;

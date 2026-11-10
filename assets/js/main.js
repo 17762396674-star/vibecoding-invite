@@ -86,6 +86,37 @@
     window.addEventListener('scroll', spy, { passive: true });
   }
 
+  /* ---------------- 移动端浮动按钮 ---------------- */
+  // 只在「还没滚到问卷」的中段出现，进入问卷区就收起，不挡表单
+  var fab = $('#fab');
+  var surveySec = document.getElementById('survey');
+
+  if (fab && surveySec) {
+    var fabTick = false;
+    var syncFab = function () {
+      var pastHero = window.scrollY > 380;
+      var nearSurvey = surveySec.getBoundingClientRect().top < window.innerHeight * 0.68;
+      var on = pastHero && !nearSurvey;
+      fab.classList.toggle('is-on', on);
+      fab.setAttribute('tabindex', on ? '0' : '-1');
+      fab.setAttribute('aria-hidden', on ? 'false' : 'true');
+    };
+    var onFabScroll = function () {
+      if (fabTick) return;
+      fabTick = true;
+      window.requestAnimationFrame(function () {
+        syncFab();
+        fabTick = false;
+      });
+    };
+    syncFab();
+    window.addEventListener('scroll', onFabScroll, { passive: true });
+    window.addEventListener('resize', onFabScroll);
+    fab.addEventListener('click', function () {
+      fab.classList.remove('is-on');
+    });
+  }
+
   /* ---------------- 表单 ---------------- */
   var form = $('#form');
   var btn = $('#submitBtn');
