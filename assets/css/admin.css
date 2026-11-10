@@ -187,6 +187,10 @@
   border-color: var(--accent);
 }
 
+.toolbar .input::placeholder {
+  color: var(--muted);
+}
+
 .toolbar select.input {
   max-width: 150px;
 }
@@ -329,5 +333,101 @@ table.rows td.cell-name {
   }
   .toolbar__right .btn {
     flex: 1;
+  }
+}
+
+/* ---------- 手机：表格改成卡片 ---------- */
+@media (max-width: 760px) {
+  .admin-bar__tag,
+  .admin-bar__user {
+    display: none;
+  }
+  .admin-bar__inner {
+    gap: 8px;
+  }
+  .admin-bar .brand span:last-child {
+    font-size: 0.88rem;
+  }
+  .admin-bar__right {
+    gap: 6px;
+  }
+  .admin-bar__right .btn {
+    padding: 7px 11px;
+    font-size: 0.78rem;
+    white-space: nowrap;
+  }
+
+  .table-wrap {
+    max-height: none;
+    overflow: visible;
+    border: 0;
+    background: transparent;
+  }
+
+  table.rows {
+    min-width: 0;
+    display: block;
+  }
+
+  table.rows thead {
+    display: none;
+  }
+
+  table.rows tbody {
+    display: grid;
+    gap: 12px;
+  }
+
+  table.rows tr {
+    display: block;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 14px 16px 12px;
+  }
+
+  table.rows td {
+    display: block;
+    position: relative;
+    border: 0;
+    padding: 5px 0 5px 70px;
+    max-width: none !important;
+    min-width: 0 !important;
+  }
+
+  table.rows td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 58px;
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    line-height: 1.6;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  table.rows td.cell-name {
+    font-size: 0.95rem;
+    padding-top: 0;
+  }
+
+  table.rows td.cell-ops {
+    display: flex;
+    gap: 8px;
+    padding-top: 10px;
+    margin-top: 6px;
+    border-top: 1px dashed var(--line);
+  }
+
+  table.rows td.cell-ops::before {
+    display: none;
+  }
+
+  table.rows td.cell-ops .op {
+    flex: 1;
+    padding: 7px 10px;
   }
 }

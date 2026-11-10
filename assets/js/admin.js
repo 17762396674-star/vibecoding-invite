@@ -215,25 +215,25 @@
           '" class="' +
           (r.publish ? '' : 'is-hidden-row') +
           '">' +
-          '<td class="cell-nowrap">' +
+          '<td class="cell-nowrap" data-label="时间">' +
           fmt(r.created_at) +
           '</td>' +
-          '<td class="cell-name">' +
+          '<td class="cell-name" data-label="昵称">' +
           esc(r.nickname) +
           '</td>' +
-          '<td class="cell-text" style="max-width:96px">' +
+          '<td class="cell-text" style="max-width:132px;min-width:104px" data-label="年级">' +
           esc(r.grade || '—') +
           '</td>' +
-          '<td class="cell-text">' +
+          '<td class="cell-text" data-label="期待">' +
           (r.expect ? '<span class="tag-mini">期待</span><br>' + esc(r.expect) : '—') +
           '</td>' +
-          '<td class="cell-text">' +
+          '<td class="cell-text" data-label="AI 故事">' +
           (r.ai_story ? '<span class="tag-mini">AI</span><br>' + esc(r.ai_story) : '—') +
           '</td>' +
-          '<td class="cell-text" style="max-width:120px">' +
+          '<td class="cell-text" style="max-width:150px" data-label="联系">' +
           esc(r.contact || '—') +
           '</td>' +
-          '<td class="cell-ops">' +
+          '<td class="cell-ops" data-label="操作">' +
           '<button class="op" data-act="toggle" data-id="' +
           r.id +
           '">' +
