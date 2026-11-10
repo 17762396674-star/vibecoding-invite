@@ -1145,10 +1145,6 @@ select {
   opacity: 0.9;
 }
 
-.foot__note {
-  color: var(--muted);
-}
-
 .foot__inner {
   display: flex;
   justify-content: space-between;
@@ -1321,6 +1317,15 @@ select {
   .hero__actions,
   .end__actions {
     flex-direction: column;
+  }
+}
+
+@media (max-width: 560px) {
+  /* 窄屏放不下「标志 + 一行署名」，改成上下两行，避免术语被拆开折行 */
+  .foot__id {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
   }
 }
 
