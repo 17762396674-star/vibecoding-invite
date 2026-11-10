@@ -42,7 +42,7 @@
 
   if (!configured) {
     loginBtn.disabled = true;
-    fail('还没有配置数据库。先按 README 第 3 节填好 assets/js/config.js，再回来登录。');
+    fail('还没有配置数据库。按 README 第 4 节把 Supabase 的 URL 和 anon key 填进 assets/js/config.js，再回来登录。');
     return;
   }
 
