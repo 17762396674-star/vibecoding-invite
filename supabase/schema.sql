@@ -109,6 +109,22 @@ create policy "owner_deletes"
 
 
 -- ===========================================================================
+--  3.1 表级权限
+--      RLS 之前还有一道门：Postgres 先看这张表给没给这个角色 GRANT，
+--      没给就直接 permission denied，策略写得再对也用不上。
+--      新版项目不一定自动授予，这里显式写死，别依赖默认值。
+-- ===========================================================================
+grant usage on schema public to anon, authenticated;
+
+-- 访客：只能往表里插，读不了、改不了、删不了
+revoke all on table public.responses from anon;
+grant insert on table public.responses to anon;
+
+-- 登录用户：先给全，实际能不能读到行仍由上面的 RLS 决定（只有站长能过）
+grant select, insert, update, delete on table public.responses to authenticated;
+
+
+-- ===========================================================================
 --  4. 清理旧版本的公开读取接口（如果之前跑过旧脚本）
 -- ===========================================================================
 drop function if exists public.answers_feed(int, int, text);
@@ -148,7 +164,12 @@ select '访客读不到任何记录', case when not exists (
     select 1 from pg_policies
     where schemaname = 'public' and tablename = 'responses'
       and cmd = 'SELECT' and 'anon' = any(roles)
-  ) then 'OK' else 'FAIL' end;
+  ) then 'OK' else 'FAIL' end
+union all
+select '访客只有插入权限', case when
+    has_table_privilege('anon', 'public.responses', 'insert')
+    and not has_table_privilege('anon', 'public.responses', 'select')
+  then 'OK' else 'FAIL' end;
 
 
 -- ===========================================================================
