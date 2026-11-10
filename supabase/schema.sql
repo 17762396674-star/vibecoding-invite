@@ -230,6 +230,10 @@ drop function if exists public.answers_count(text);
 -- ===========================================================================
 --  5. 自检（运行完看结果，全部 OK 才算配置成功）
 -- ===========================================================================
+-- 改完表结构后让接口层立刻刷新缓存，否则一会儿提交会报
+-- 「Could not find the 'full_name' column ... in the schema cache」
+notify pgrst, 'reload schema';
+
 select
   '管理员邮箱' as 检查项,
   case when exists (
