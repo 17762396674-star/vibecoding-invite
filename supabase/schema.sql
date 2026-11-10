@@ -27,20 +27,14 @@ create table if not exists public.responses (
 );
 
 comment on table  public.responses is '活动问卷回收表（六题）';
-comment on column public.responses.full_name  is '姓名，真名';
-comment on column public.responses.want       is 'A 对这场活动最想了解什么';
-comment on column public.responses.ai_story   is 'B 平时用 AI 做过什么有意思的事';
-comment on column public.responses.worry      is 'C 是否担心 AI 冲击编程岗位及最大顾虑';
-comment on column public.responses.site_idea  is 'D 想用 AI 搭什么类型的站点';
-comment on column public.responses.tool_gap   is 'E 最常用的 AI 工具与短板';
-comment on column public.responses.salon_wish is 'F 之后想开展哪些 AI 技术分享沙龙';
 
 
 -- ===========================================================================
 --  1.1 从旧版本升级（只做一次，跑第二遍会自动跳过）
---      旧表是「昵称 + 两题」。这里只**新增**列、不回改名，
+--      旧表是「昵称 + 两题」。这里只**新增**列、不改名，
 --      这样在页面代码切换前后，新旧两版都能正常提交，不会出现提交失败的窗口。
 --      旧列（nickname / expect）先留着，确认新页面跑通后再删，见文末附录。
+--      注意：列注释必须放在这一步之后，否则旧表上会因为「列不存在」整段回滚。
 -- ===========================================================================
 do $$
 declare
@@ -89,6 +83,15 @@ alter table public.responses alter column full_name set not null;
 
 -- 以前有「是否上墙」这一列，现在页面没有公开墙了，用不上
 alter table public.responses drop column if exists publish;
+
+-- 列注释：放在新增列之后，旧表升级也能跑通
+comment on column public.responses.full_name  is '姓名';
+comment on column public.responses.want       is 'A 对这场活动最想了解什么';
+comment on column public.responses.ai_story   is 'B 平时用 AI 做过什么有意思的事';
+comment on column public.responses.worry      is 'C 是否担心 AI 冲击编程岗位及最大顾虑';
+comment on column public.responses.site_idea  is 'D 想用 AI 搭什么类型的站点';
+comment on column public.responses.tool_gap   is 'E 最常用的 AI 工具与短板';
+comment on column public.responses.salon_wish is 'F 之后想开展哪些 AI 技术分享沙龙';
 
 
 -- ===========================================================================
