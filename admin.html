@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>管理后台 · 活动问卷</title>
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="assets/css/admin.css" />
+</head>
+<body class="admin-page">
+
+<header class="admin-bar">
+  <div class="wrap admin-bar__inner">
+    <a class="brand" href="index.html">
+      <span class="brand__mark" aria-hidden="true">CA</span>
+      <span>编程爱好者协会</span>
+    </a>
+    <span class="admin-bar__tag">管理后台</span>
+    <div class="admin-bar__right">
+      <span class="admin-bar__user" id="whoami" hidden></span>
+      <a class="btn btn--ghost btn--sm" href="index.html">返回活动页</a>
+      <button class="btn btn--ghost btn--sm" id="logoutBtn" hidden>退出登录</button>
+    </div>
+  </div>
+</header>
+
+<main class="admin-main">
+
+  <!-- 未登录 -->
+  <section class="wrap" id="loginView">
+    <form class="login" id="loginForm" novalidate>
+      <h1>只有管理员能进</h1>
+      <p>
+        这个页面用来查看完整问卷明细、导出表格。访客只能看公开的回答，
+        联系方式与导出入口在数据库层面就对其他人关闭。
+      </p>
+
+      <div class="field">
+        <label for="email">管理员邮箱</label>
+        <input class="input" id="email" name="email" type="email" autocomplete="username" placeholder="you@example.com" required />
+      </div>
+      <div class="field">
+        <label for="password">密码</label>
+        <input class="input" id="password" name="password" type="password" autocomplete="current-password" placeholder="••••••••" required />
+      </div>
+
+      <button class="btn btn--solid" type="submit" id="loginBtn">登录</button>
+      <div class="login__msg" id="loginMsg" role="alert"></div>
+    </form>
+  </section>
+
+  <!-- 已登录 -->
+  <section class="wrap" id="panelView" hidden>
+    <div class="stats">
+      <div class="stat"><b id="stTotal">—</b><span>总份数</span></div>
+      <div class="stat"><b id="stExpect">—</b><span>填了期待</span></div>
+      <div class="stat"><b id="stAi">—</b><span>填了 AI 故事</span></div>
+      <div class="stat"><b id="stToday">—</b><span>今天新增</span></div>
+    </div>
+
+    <div class="toolbar">
+      <input class="input" id="q" type="search" placeholder="搜昵称、内容、联系方式" aria-label="搜索" />
+      <select class="input" id="kind" aria-label="筛选类型">
+        <option value="all">全部</option>
+        <option value="expect">只看期待</option>
+        <option value="ai">只看 AI 故事</option>
+        <option value="contact">只看留了联系方式的</option>
+      </select>
+      <button class="btn btn--ghost btn--sm" id="reloadBtn">刷新</button>
+      <div class="toolbar__right">
+        <button class="btn btn--solid btn--sm" id="exportCsv">导出表格（CSV）</button>
+        <button class="btn btn--ghost btn--sm" id="exportJson">导出 JSON</button>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="rows">
+        <thead>
+          <tr>
+            <th style="width:118px">时间</th>
+            <th style="width:130px">昵称</th>
+            <th style="width:96px">年级专业</th>
+            <th>对活动的期待</th>
+            <th>AI 故事</th>
+            <th style="width:120px">联系方式</th>
+            <th style="width:104px">操作</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <div class="admin-empty" id="tableEmpty" hidden>还没有人提交。</div>
+    </div>
+
+    <p class="admin-note">
+      导出为 CSV（带 BOM，Excel 双击直接打开，不会乱码）。导出的内容包含联系方式，
+      只应保存在你自己的电脑上，不要转发到群里。<br />
+      删除是不可恢复的；如果只是想让它从墙上消失，用「隐藏」。
+    </p>
+  </section>
+
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="assets/vendor/supabase.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/admin.js"></script>
+</body>
+</html>

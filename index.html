@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>拥抱 AI，拒绝焦虑 · VibeCoding 建站实战｜编程爱好者协会</title>
+<meta name="description" content="编程爱好者协会技术分享：一个半小时，从「想做网站」到「手机里有一个能打开的链接」。现场带做，带电脑来。" />
+<meta name="theme-color" content="#f6f3ec" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="拥抱 AI，拒绝焦虑 · VibeCoding 建站实战" />
+<meta property="og:description" content="现场带做：从建仓库、传文件到开 Pages，散会前拿到你自己的网址。" />
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+<link rel="preload" href="assets/fonts/space-grotesk-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="stylesheet" href="assets/css/style.css" />
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+
+<!-- 未配置数据库时显示；配置好 assets/js/config.js 后自动消失 -->
+<div class="demo-bar" id="demoBar" hidden>
+  演示模式 · 还没有连接数据库，下面的数据只存在这台设备上。配置方法见 README 第 3 节。
+</div>
+
+<header class="nav" id="nav">
+  <div class="wrap nav__inner">
+    <a class="brand" href="#top">
+      <span class="brand__mark" aria-hidden="true">CA</span>
+      <span>编程爱好者协会</span>
+    </a>
+    <button class="nav__burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav__links" id="navLinks" aria-label="页面导航">
+      <a class="nav__link" href="#topics">讲什么</a>
+      <a class="nav__link" href="#gains">会带走</a>
+      <a class="nav__link" href="#agenda">流程</a>
+      <a class="nav__link" href="#prep">准备</a>
+      <a class="nav__link" href="#wall">汇总墙</a>
+      <a class="nav__cta" href="#survey">写上你的期待</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ================= Hero ================= -->
+  <section class="hero">
+    <div class="wrap hero__grid">
+      <div>
+        <div class="hero__top reveal">
+          <span class="tag tag--accent">技术分享 · 第 01 期</span>
+          <span class="tag">限本协会 · 免费</span>
+        </div>
+
+        <h1 class="reveal" style="--d:.05s">拥抱 AI，<br /><em>拒绝焦虑</em></h1>
+        <p class="hero__en reveal" style="--d:.1s">VibeCoding / Build a site in one night</p>
+
+        <p class="hero__lead reveal" style="--d:.15s">
+          一个半小时，只做一件事：让你在散会前，手机里有一个<b>能发给别人打开的网址</b>。
+          不讲语法，不装环境，不写完一门课再动手。
+        </p>
+
+        <dl class="hero__meta reveal" style="--d:.2s">
+          <div>
+            <dt>时间</dt>
+            <!-- ✏️ 改成真实时间 -->
+            <dd>11 月 XX 日（周 X）19:00–20:30</dd>
+          </div>
+          <div>
+            <dt>地点</dt>
+            <!-- ✏️ 改成真实地点 -->
+            <dd>XX 楼 X0X 机房</dd>
+          </div>
+          <div>
+            <dt>要求</dt>
+            <dd>带电脑，最好带一个想法</dd>
+          </div>
+        </dl>
+
+        <div class="hero__actions reveal" style="--d:.25s">
+          <a class="btn btn--solid" href="#survey">
+            写上你的期待
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn--ghost" href="#wall">看看大家怎么说</a>
+        </div>
+      </div>
+
+      <!-- 票根 -->
+      <aside class="ticket reveal" style="--d:.2s" aria-label="活动信息">
+        <div class="ticket__top">
+          <div class="ticket__brand">
+            Coding Association<br />Tech Talk / 2026
+          </div>
+          <div class="ticket__no">NO. 001</div>
+        </div>
+
+        <h2 class="ticket__title">VibeCoding<br />建站实战</h2>
+        <p class="ticket__sub">从一句自然语言，到一个真实上线的地址</p>
+
+        <div class="ticket__perf" aria-hidden="true"></div>
+
+        <dl class="ticket__rows">
+          <div class="ticket__row">
+            <dt>Date</dt>
+            <dd>11 月 XX 日 周 X</dd>
+          </div>
+          <div class="ticket__row">
+            <dt>Time</dt>
+            <dd>19:00 — 20:30</dd>
+          </div>
+          <div class="ticket__row">
+            <dt>Place</dt>
+            <dd>XX 楼 X0X 机房</dd>
+          </div>
+          <div class="ticket__row">
+            <dt>Host</dt>
+            <dd>编程爱好者协会</dd>
+          </div>
+        </dl>
+
+        <div class="ticket__foot">
+          <span><span class="ticket__dot" aria-hidden="true"></span>报名开放</span>
+          <span>ADMIT ONE</span>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ================= 讲什么 ================= -->
+  <section class="section" id="topics">
+    <div class="wrap">
+      <div class="head reveal">
+        <div class="head__label"><b>01</b> / 讲什么</div>
+        <div>
+          <h2>四件事，按顺序讲</h2>
+          <p>不是四个知识点，是一条路。前一件不做完，后一件讲了也没用。</p>
+        </div>
+      </div>
+
+      <div class="topics">
+        <article class="topic reveal">
+          <div class="topic__no">01</div>
+          <h3 class="topic__title">我卡住的不是代码</h3>
+          <p class="topic__desc">工具太多、名词太密、上线就白屏、改一版传一次。这四个卡点都有名字，而且都不是「我不会写代码」。</p>
+        </article>
+        <article class="topic reveal">
+          <div class="topic__no">02</div>
+          <h3 class="topic__title">AI 到底替你干了什么</h3>
+          <p class="topic__desc">「它干活，你决定干什么」。同一个需求，说「好看点」和说「#1E5EFF、圆角 8 像素」，差的是十轮修改。</p>
+        </article>
+        <article class="topic reveal">
+          <div class="topic__no">03</div>
+          <h3 class="topic__title">怎么让一个页面被别人打开</h3>
+          <p class="topic__desc">从本地双击，到 <span class="mono" style="font-size:.85em;letter-spacing:0">github.io</span> 的三步。这一步是全场重点，会带着你做。</p>
+        </article>
+        <article class="topic reveal">
+          <div class="topic__no">04</div>
+          <h3 class="topic__title">它能做什么，不能做什么</h3>
+          <p class="topic__desc">静态站是展厅，不是工厂。搞清这条线，你就不会在答辩现场被问「数据库在哪」。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 会带走 ================= -->
+  <section class="section section--paper2" id="gains">
+    <div class="wrap">
+      <div class="head reveal">
+        <div class="head__label"><b>02</b> / 会带走</div>
+        <div>
+          <h2>散会时，你手里有三样东西</h2>
+          <p>不是笔记，不是 PPT，是能马上用的三样。</p>
+        </div>
+      </div>
+
+      <div class="gains">
+        <article class="gain reveal">
+          <div class="gain__ic" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>
+          </div>
+          <h3>一个能打开的链接</h3>
+          <p>现场跟着做，自己的仓库、自己的域名。散会前你把它发给朋友，他点开就能看见。</p>
+          <div class="gain__tag">Deliverable 01</div>
+        </article>
+
+        <article class="gain reveal" style="--d:.08s">
+          <div class="gain__ic" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/><circle cx="18" cy="16" r="3"/></svg>
+          </div>
+          <h3>一套顺序</h3>
+          <p>先干什么、后干什么。你不需要先学完一门课，只需要知道下一步点哪里。</p>
+          <div class="gain__tag">Deliverable 02</div>
+        </article>
+
+        <article class="gain reveal" style="--d:.16s">
+          <div class="gain__ic" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="7.5" cy="12" r="3.4"/><path d="M10.9 12H21M18.2 12v3.4"/></svg>
+          </div>
+          <h3>一把钥匙</h3>
+          <p>配一次权限，之后只管说需求，它自己改、自己推、自己重新上线。改到第十版也不会烦。</p>
+          <div class="gain__tag">Deliverable 03</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 流程 ================= -->
+  <section class="section" id="agenda">
+    <div class="wrap">
+      <div class="head reveal">
+        <div class="head__label"><b>03</b> / 现场流程</div>
+        <div>
+          <h2>九十分钟，长这样</h2>
+          <p>中间有一段是动手，那一段不要走神。</p>
+        </div>
+      </div>
+
+      <div class="agenda">
+        <div class="agenda__item">
+          <div class="agenda__time">19:00</div>
+          <div class="agenda__body"><h3>开场</h3><p>今天没有 PPT，也没有讲义</p></div>
+        </div>
+        <div class="agenda__item">
+          <div class="agenda__time">19:05</div>
+          <div class="agenda__body"><h3>四个卡点，四种误解</h3><p>为什么你总是停在第一章</p></div>
+        </div>
+        <div class="agenda__item">
+          <div class="agenda__time">19:15</div>
+          <div class="agenda__body"><h3>工具接力与技术栈</h3><p>一行链接原则，能不打包就不打包</p></div>
+        </div>
+        <div class="agenda__item agenda__item--key">
+          <div class="agenda__time">19:25</div>
+          <div class="agenda__body"><h3>现场带做：从文件夹到网址</h3><p>建仓库 · 传文件 · 开 Pages，跟着点</p></div>
+        </div>
+        <div class="agenda__item">
+          <div class="agenda__time">19:50</div>
+          <div class="agenda__body"><h3>配一把钥匙</h3><p>以后只说需求，改十版也不累</p></div>
+        </div>
+        <div class="agenda__item">
+          <div class="agenda__time">20:05</div>
+          <div class="agenda__body"><h3>展厅不是工厂</h3><p>能力边界，以及 AI 时代该练什么</p></div>
+        </div>
+        <div class="agenda__item">
+          <div class="agenda__time">20:15</div>
+          <div class="agenda__body"><h3>答疑与现场排错</h3><p>卡住的人举手，一个一个看</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 准备 ================= -->
+  <section class="section section--paper2" id="prep">
+    <div class="wrap">
+      <div class="head reveal">
+        <div class="head__label"><b>04</b> / 准备</div>
+        <div>
+          <h2>谁该来，带什么</h2>
+          <p>不需要基础。但有两样东西请一定带上。</p>
+        </div>
+      </div>
+
+      <div class="prep">
+        <div class="prep__col reveal">
+          <h3>适合谁</h3>
+          <ul class="prep__list">
+            <li><span class="tick" aria-hidden="true"></span><div><b>想做但一直没开始的人</b><span>文件夹建了半年，里面只有一个 README。</span></div></li>
+            <li><span class="tick" aria-hidden="true"></span><div><b>天天用 AI，但没让它交付过东西的人</b><span>改文案、写总结很熟，没试过让它做出一个页面。</span></div></li>
+            <li><span class="tick" aria-hidden="true"></span><div><b>被问过「学这个还有用吗」的人</b><span>这场会给你一个能说出口的回答。</span></div></li>
+          </ul>
+        </div>
+
+        <div class="prep__col reveal" style="--d:.08s">
+          <h3>带什么</h3>
+          <ul class="prep__list">
+            <li><span class="tick" aria-hidden="true"></span><div><b>一台电脑</b><span>能开浏览器就行，不需要装任何软件。</span></div></li>
+            <li><span class="tick" aria-hidden="true"></span><div><b>一个 GitHub 账号</b><span>没有的话现场注册，两分钟，别提前放弃。</span></div></li>
+            <li><span class="tick" aria-hidden="true"></span><div><b>一个你想做的页面</b><span>社团招新、比赛展示、个人主页，随便哪个。</span></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 问卷 ================= -->
+  <section class="section section--night survey" id="survey">
+    <div class="wrap">
+      <div class="head reveal">
+        <div class="head__label"><b>05</b> / 两个问题</div>
+        <div>
+          <h2>先告诉我两件事，我按你们的答案讲</h2>
+          <p>这不是报名表，是备课表。你写的内容会出现在下面的墙上，也会决定我现场在哪一段多留十分钟。</p>
+        </div>
+      </div>
+
+      <form class="form reveal" id="form" novalidate>
+        <div class="form__row">
+          <div class="field">
+            <label for="nickname">怎么称呼你 <span class="mono">Name</span></label>
+            <input class="input" id="nickname" name="nickname" type="text" maxlength="24" placeholder="昵称就行，比如「计科 2 班小张」" autocomplete="nickname" />
+          </div>
+          <div class="field">
+            <label for="grade">年级 / 专业 <span class="mono">Optional</span></label>
+            <input class="input" id="grade" name="grade" type="text" maxlength="30" placeholder="大二 · 计算机，可不填" />
+          </div>
+        </div>
+
+        <div class="qblock">
+          <div class="qblock__head">
+            <div class="qblock__title"><span class="mono">A</span> 你对这场活动最想了解什么？</div>
+            <div class="qblock__hint">你现在卡在哪一步，也可以直接写</div>
+          </div>
+          <label class="field" for="expect" style="gap:0">
+            <span class="hp"><input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" /></span>
+            <textarea class="textarea" id="expect" name="expect" maxlength="800" placeholder="比如：我想知道没有服务器能不能做登录；或者：我总是传到 GitHub 就白屏，卡了两周。"></textarea>
+          </label>
+          <div class="counter" data-counter-for="expect">0 / 800</div>
+        </div>
+
+        <div class="qblock">
+          <div class="qblock__head">
+            <div class="qblock__title"><span class="mono">B</span> 你平时用 AI 做过什么有意思的事？</div>
+            <div class="qblock__hint">或者：它具体帮过你什么忙</div>
+          </div>
+          <label class="field" for="ai_story" style="gap:0">
+            <textarea class="textarea" id="ai_story" name="ai_story" maxlength="800" placeholder="比如：让 AI 把我一学期的实验报告排成一份 PDF；或者：它帮我把导师的语音转成了会议记录。"></textarea>
+          </label>
+          <div class="counter" data-counter-for="ai_story">0 / 800</div>
+        </div>
+
+        <div class="field">
+          <label for="contact">联系方式 <span class="mono">Private</span> <i>不公开，只用于活动通知</i></label>
+          <input class="input" id="contact" name="contact" type="text" maxlength="60" placeholder="微信 / 邮箱，可不填" autocomplete="off" />
+        </div>
+
+        <div class="alert alert--err" id="formErr" role="alert"></div>
+        <div class="alert alert--ok" id="formOk" role="status"></div>
+
+        <div class="form__foot">
+          <button class="btn btn--light" type="submit" id="submitBtn">提交，上墙</button>
+          <p class="form__note">
+            两题至少答一题，可以都答。提交后立刻出现在下面的汇总墙。
+            联系方式不会公开，只有管理员能看到，见 <a href="#privacy">数据说明</a>。
+          </p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ================= 汇总墙 ================= -->
+  <section class="section" id="wall">
+    <div class="wrap">
+      <div class="head reveal">
+        <div class="head__label"><b>06</b> / 汇总墙</div>
+        <div>
+          <h2>大家已经写下的</h2>
+          <p>每一条都是真的，来自要来的人。你提交之后，也会出现在这里。</p>
+        </div>
+      </div>
+
+      <div class="wall__bar reveal">
+        <div class="tabs" role="tablist" aria-label="按类型筛选">
+          <button class="tab" role="tab" aria-selected="true" data-filter="all" id="tab-all">全部</button>
+          <button class="tab" role="tab" aria-selected="false" data-filter="expect" id="tab-expect">期待</button>
+          <button class="tab" role="tab" aria-selected="false" data-filter="ai" id="tab-ai">AI 故事</button>
+        </div>
+        <div class="wall__count" id="wallCount">—</div>
+      </div>
+
+      <div class="wall" id="wallList" aria-live="polite"></div>
+
+      <div class="empty" id="wallEmpty" hidden>
+        <b>还没有人写</b>
+        第一个写的人，会决定这场活动讲哪一段。
+      </div>
+
+      <div class="wall__more" id="wallMore" hidden>
+        <button class="btn btn--ghost" id="moreBtn">再看一些</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 数据说明 ================= -->
+  <section class="section section--tight section--paper2" id="privacy">
+    <div class="wrap">
+      <div class="head reveal">
+        <div class="head__label"><b>07</b> / 数据说明</div>
+        <div>
+          <h2>什么会公开，什么不会</h2>
+          <p>这个站没有后台服务器，数据存在 Supabase，权限写在数据库里，不是写在前端按钮里。</p>
+        </div>
+      </div>
+
+      <ol class="flow reveal">
+        <li>你填写<span>昵称、两题回答、可选的联系方式</span></li>
+        <li>写入数据库<span>访客只有写入权限，读不到任何一条记录</span></li>
+        <li>两个出口<span>公开墙只读公开列；管理后台读全表，只有你能进</span></li>
+      </ol>
+
+      <div class="privacy reveal">
+        <div class="privacy__box">
+          <h4>会公开</h4>
+          <ul>
+            <li>昵称、年级专业</li>
+            <li>你对活动的期待</li>
+            <li>你的 AI 故事</li>
+            <li>提交时间</li>
+          </ul>
+        </div>
+        <div class="privacy__box">
+          <h4>不公开</h4>
+          <ul>
+            <li>联系方式（只有管理员能看）</li>
+            <li>完整明细表（只有管理员能导出）</li>
+            <li>删除与隐藏权限（只有管理员有）</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 结尾 ================= -->
+  <section class="end">
+    <div class="wrap">
+      <h2 class="reveal">今晚你带走的，<br />不是一个网址，是「我也能做」</h2>
+      <p class="reveal">带电脑来，别的不用准备。做不出来也没关系，散会我留在群里，一个一个看。</p>
+      <div class="end__actions reveal">
+        <a class="btn btn--solid" href="#survey">写上你的期待</a>
+        <a class="btn btn--ghost" href="#agenda">再看一遍流程</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__inner">
+    <div>编程爱好者协会 · 技术分享 第 01 期<br />页面里的每一段文字，都可以在 <span class="mono" style="font-size:.9em">index.html</span> 里改。</div>
+    <a class="foot__admin" href="admin.html">管理入口</a>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="assets/vendor/supabase.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
