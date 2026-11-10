@@ -24,11 +24,8 @@
 <header class="nav" id="nav">
   <div class="wrap nav__inner">
     <a class="brand" href="#top" aria-label="江西飞行学院编程爱好者协会">
-      <span class="brand__mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21.2 2.8 3.1 11.2l6.9 2.6Z" fill="#fff"/><path d="M21.2 2.8 10 13.8l2.8 7.4Z" fill="#4a5cff"/></svg></span>
-      <span class="brand__name">
-        <span class="brand__school">江西飞行学院</span>
-        <span class="brand__club">编程爱好者协会</span>
-      </span>
+      <img class="brand__mark" src="assets/logo/jxfi-ink.png" alt="江西飞行学院" />
+      <span class="brand__club">编程爱好者协会</span>
     </a>
     <button class="nav__burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="navLinks">
       <span></span><span></span><span></span>
@@ -36,9 +33,7 @@
     <nav class="nav__links" id="navLinks" aria-label="页面导航">
       <a class="nav__link" href="#topics">讲什么</a>
       <a class="nav__link" href="#gains">会带走</a>
-      <a class="nav__link" href="#agenda">流程</a>
       <a class="nav__link" href="#prep">准备</a>
-      <a class="nav__link" href="#wall">汇总墙</a>
       <a class="nav__cta" href="#survey">写上你的期待</a>
     </nav>
   </div>
@@ -51,7 +46,7 @@
     <div class="wrap hero__grid">
       <div>
         <div class="hero__top reveal">
-          <span class="tag tag--accent">技术分享 · 第 01 期</span>
+          <span class="tag tag--accent">技术分享</span>
           <span class="tag">限本协会 · 免费</span>
         </div>
 
@@ -60,7 +55,7 @@
 
         <p class="hero__lead reveal" style="--d:.15s">
           五十分钟，只讲一件事：从「想做个网站」到<b>把网址发给别人</b>，中间到底有几步。
-          不讲语法，不装环境，也不用你动手——我先完整做一遍，你看着。
+          不讲语法，不装环境，也不用你动手——我先完整做一遍，你看着。带了电脑想自己试，也行。
         </p>
 
         <dl class="hero__meta reveal" style="--d:.2s">
@@ -75,8 +70,8 @@
             <dd>二阶1教室</dd>
           </div>
           <div>
-            <dt>要求</dt>
-            <dd>人来就行，不用带电脑</dd>
+            <dt>准备</dt>
+            <dd>带电脑更好，不做要求</dd>
           </div>
         </dl>
 
@@ -85,7 +80,7 @@
             写上你的期待
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
-          <a class="btn btn--ghost" href="#wall">看看大家怎么说</a>
+          <a class="btn btn--ghost" href="#topics">看讲什么</a>
         </div>
       </div>
 
@@ -161,7 +156,7 @@
         <article class="topic reveal">
           <div class="topic__no">04</div>
           <h3 class="topic__title">它能做什么，不能做什么</h3>
-          <p class="topic__desc">静态站是展厅，不是工厂。搞清这条线，你就不会在答辩现场被问「数据库在哪」。</p>
+          <p class="topic__desc">静态站是展厅，不是工厂。什么时候够用、什么时候不够，这条线得先划清楚。</p>
         </article>
       </div>
     </div>
@@ -209,58 +204,14 @@
     </div>
   </section>
 
-  <!-- ================= 流程 ================= -->
-  <section class="section" id="agenda">
-    <div class="wrap">
-      <div class="head reveal">
-        <div class="head__label"><b>03</b> / 现场流程</div>
-        <div>
-          <h2>五十分钟，长这样</h2>
-          <p>中间有一段是完整演示，那一段别走神。</p>
-        </div>
-      </div>
-
-      <div class="agenda">
-        <div class="agenda__item">
-          <div class="agenda__time">18:00</div>
-          <div class="agenda__body"><h3>开场</h3><p>今天没有 PPT，也没有讲义</p></div>
-        </div>
-        <div class="agenda__item">
-          <div class="agenda__time">18:04</div>
-          <div class="agenda__body"><h3>四个卡点，四种误解</h3><p>为什么你总是停在第一章</p></div>
-        </div>
-        <div class="agenda__item">
-          <div class="agenda__time">18:12</div>
-          <div class="agenda__body"><h3>工具接力与技术栈</h3><p>一行链接原则，能不打包就不打包</p></div>
-        </div>
-        <div class="agenda__item agenda__item--key">
-          <div class="agenda__time">18:19</div>
-          <div class="agenda__body"><h3>现场演示：从文件夹到网址</h3><p>建仓库 · 传文件 · 开 Pages，一步步看</p></div>
-        </div>
-        <div class="agenda__item">
-          <div class="agenda__time">18:31</div>
-          <div class="agenda__body"><h3>配一把钥匙</h3><p>以后只说需求，改十版也不累</p></div>
-        </div>
-        <div class="agenda__item">
-          <div class="agenda__time">18:37</div>
-          <div class="agenda__body"><h3>展厅不是工厂</h3><p>能力边界，以及 AI 时代该练什么</p></div>
-        </div>
-        <div class="agenda__item">
-          <div class="agenda__time">18:44</div>
-          <div class="agenda__body"><h3>自由答疑</h3><p>想问什么问什么，不限主题</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ================= 准备 ================= -->
   <section class="section section--paper2" id="prep">
     <div class="wrap">
       <div class="head reveal">
-        <div class="head__label"><b>04</b> / 准备</div>
+        <div class="head__label"><b>03</b> / 准备</div>
         <div>
           <h2>谁该来，要准备什么</h2>
-          <p>不需要基础，也不用准备什么。人来就行。</p>
+          <p>不需要基础。带电脑更方便，不带也完全听得懂。</p>
         </div>
       </div>
 
@@ -277,7 +228,7 @@
         <div class="prep__col reveal" style="--d:.08s">
           <h3>要准备什么</h3>
           <ul class="prep__list">
-            <li><span class="tick" aria-hidden="true"></span><div><b>什么都不用带</b><span>不用电脑，不用装软件，也不用提前注册账号。</span></div></li>
+            <li><span class="tick" aria-hidden="true"></span><div><b>带不带电脑都行</b><span>带了可以自己照着点两下，没带就看我演示，不耽误听。</span></div></li>
             <li><span class="tick" aria-hidden="true"></span><div><b>一个你想做的东西</b><span>社团招新、比赛展示、个人主页，随便哪个。听完你就知道从哪下手。</span></div></li>
             <li><span class="tick" aria-hidden="true"></span><div><b>一个一直没搞懂的问题</b><span>最后留了答疑，问什么都可以。</span></div></li>
           </ul>
@@ -290,10 +241,10 @@
   <section class="section section--night survey" id="survey">
     <div class="wrap">
       <div class="head reveal">
-        <div class="head__label"><b>05</b> / 两个问题</div>
+        <div class="head__label"><b>04</b> / 两个问题</div>
         <div>
-          <h2>先告诉我两件事，我按你们的答案讲</h2>
-          <p>不是报名表，就是想先收一收大家的想法。写下的会出现在下面的墙上，我也能提前知道该讲哪些。</p>
+          <h2>最后，是我按你们的想法讲</h2>
+          <p>不是报名表。两题随便写，开讲前我过一遍：哪一段写的人多，哪一段就多讲一会儿。</p>
         </div>
       </div>
 
@@ -301,7 +252,7 @@
         <div class="form__row">
           <div class="field">
             <label for="nickname">怎么称呼你 <span class="mono">Name</span></label>
-            <input class="input" id="nickname" name="nickname" type="text" maxlength="24" placeholder="昵称就行，比如「计科 2 班小张」" autocomplete="nickname" />
+            <input class="input" id="nickname" name="nickname" type="text" maxlength="24" placeholder="比如：244软件彭弘炜" autocomplete="nickname" />
           </div>
           <div class="field">
             <label for="grade">年级 / 专业 <span class="mono">Optional</span></label>
@@ -336,84 +287,10 @@
         <div class="alert alert--ok" id="formOk" role="status"></div>
 
         <div class="form__foot">
-          <button class="btn btn--light" type="submit" id="submitBtn">提交，上墙</button>
-          <p class="form__note">
-            两题至少答一题，可以都答。提交后立刻出现在下面的汇总墙。
-            昵称随便写，不用留任何联系方式，见 <a href="#privacy">数据说明</a>。
-          </p>
+          <button class="btn btn--light" type="submit" id="submitBtn">提交</button>
+          <p class="form__note">两题至少答一题，可以都答。</p>
         </div>
       </form>
-    </div>
-  </section>
-
-  <!-- ================= 汇总墙 ================= -->
-  <section class="section" id="wall">
-    <div class="wrap">
-      <div class="head reveal">
-        <div class="head__label"><b>06</b> / 汇总墙</div>
-        <div>
-          <h2>大家写下的</h2>
-          <p>这里全是真实回答，不编、不凑数。现在还没人写——第一个写的人，会决定我先讲哪一段。</p>
-        </div>
-      </div>
-
-      <div class="wall__bar reveal">
-        <div class="tabs" role="tablist" aria-label="按类型筛选">
-          <button class="tab" role="tab" aria-selected="true" data-filter="all" id="tab-all">全部</button>
-          <button class="tab" role="tab" aria-selected="false" data-filter="expect" id="tab-expect">期待</button>
-          <button class="tab" role="tab" aria-selected="false" data-filter="ai" id="tab-ai">AI 故事</button>
-        </div>
-        <div class="wall__count" id="wallCount">—</div>
-      </div>
-
-      <div class="wall" id="wallList" aria-live="polite"></div>
-
-      <div class="empty" id="wallEmpty" hidden>
-        <b>还没有人写</b>
-        你写第一条，它就会出现在这里。
-      </div>
-
-      <div class="wall__more" id="wallMore" hidden>
-        <button class="btn btn--ghost" id="moreBtn">再看一些</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= 数据说明 ================= -->
-  <section class="section section--tight section--paper2" id="privacy">
-    <div class="wrap">
-      <div class="head reveal">
-        <div class="head__label"><b>07</b> / 数据说明</div>
-        <div>
-          <h2>什么会公开，什么不会</h2>
-          <p>这个站没有后台服务器，数据存在 Supabase，权限写在数据库里，不是写在前端按钮里。</p>
-        </div>
-      </div>
-
-      <ol class="flow reveal">
-        <li>你填写<span>昵称、年级、两题回答</span></li>
-        <li>写入数据库<span>访客只有写入权限，读不到任何一条记录</span></li>
-        <li>两个出口<span>公开墙只读公开列；管理后台读全表，只有你能进</span></li>
-      </ol>
-
-      <div class="privacy reveal">
-        <div class="privacy__box">
-          <h4>会公开</h4>
-          <ul>
-            <li>昵称、年级专业</li>
-            <li>你对活动的期待</li>
-            <li>你的 AI 故事</li>
-            <li>提交时间</li>
-          </ul>
-        </div>
-        <div class="privacy__box">
-          <h4>不公开</h4>
-          <ul>
-            <li>完整明细表（只有管理员能导出）</li>
-            <li>删除与隐藏权限（只有管理员有）</li>
-          </ul>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -421,10 +298,9 @@
   <section class="end">
     <div class="wrap">
       <h2 class="reveal">今晚你带走的，<br />不是一个网址，是「我也能做」</h2>
-      <p class="reveal">人来就行，不用带电脑。回去自己动手时卡住了，群里问，我一条条看。</p>
+      <p class="reveal">带不带电脑都行。回去自己动手时卡住了，群里问，我一条条看。</p>
       <div class="end__actions reveal">
         <a class="btn btn--solid" href="#survey">写上你的期待</a>
-        <a class="btn btn--ghost" href="#agenda">再看一遍流程</a>
       </div>
     </div>
   </section>
@@ -435,7 +311,7 @@
     <div class="foot__id">
       <img class="foot__logo" src="assets/logo/jxfi-ink.png" alt="江西飞行学院" />
       <div>
-        江西飞行学院编程爱好者协会 · 技术分享 第 01 期<br />
+        江西飞行学院编程爱好者协会 · 技术分享<br />
         <span class="foot__note">页面里的每一段文字，都可以在 <span class="mono" style="font-size:.9em">index.html</span> 里改。</span>
       </div>
     </div>

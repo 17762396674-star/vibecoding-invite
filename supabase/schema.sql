@@ -2,13 +2,10 @@
 --  活动预告站 · 数据库初始化
 --  ---------------------------------------------------------------------------
 --  用法：Supabase 控制台 → 左侧 SQL Editor → New query → 整段粘贴 → Run
---  运行前只需要改一处：下面这一行，换成你自己的管理员邮箱。
+--  只改一处：第 2 节里的管理员邮箱，换成你自己的。
+--
+--  权限模型：访客只能写，不能读。整张表只有管理员能看、能导出。
 -- ===========================================================================
-
--- ① 先把这一行改成你的管理员邮箱（就是你会用来登录 admin.html 的那个）
---    例如：'president@example.com'
---    注意：改完这一行之后，再运行整段 SQL。
-
 
 
 -- ===========================================================================
@@ -20,11 +17,13 @@ create table if not exists public.responses (
   nickname   text not null default '匿名同学',
   grade      text,
   expect     text,          -- 问卷 A：对活动的期待
-  ai_story   text,          -- 问卷 B：AI 故事
-  publish    boolean not null default true
+  ai_story   text           -- 问卷 B：AI 故事
 );
 
 comment on table  public.responses is '活动问卷回收表';
+
+-- 兼容旧版本：以前有「是否上墙」这一列，现在页面没有公开墙了，用不上
+alter table public.responses drop column if exists publish;
 
 -- 约束：挡住空提交和超长内容（前端也会校验，这里是最后一道）
 alter table public.responses drop constraint if exists responses_len_check;
@@ -49,8 +48,6 @@ alter table public.responses
 
 create index if not exists responses_created_idx
   on public.responses (created_at desc);
-create index if not exists responses_publish_idx
-  on public.responses (publish, created_at desc);
 
 
 -- ===========================================================================
@@ -70,19 +67,19 @@ comment on function public.is_owner() is '判断当前登录用户是否为站�
 
 -- ===========================================================================
 --  3. 行级安全（RLS）
---     这是「只有我能导出」真正的实现位置：不是前端按钮，是数据库。
+--     这是「只有我能看、只有我能导出」真正的实现位置：不是前端按钮，是数据库。
 -- ===========================================================================
 alter table public.responses enable row level security;
 
--- 任何人（含未登录访客）都可以提交，但只能提交「公开状态」的记录
+-- 任何人（含未登录访客）都可以提交
 drop policy if exists "anyone_can_submit" on public.responses;
 create policy "anyone_can_submit"
   on public.responses
   for insert
   to anon, authenticated
-  with check (publish = true);
+  with check (true);
 
--- 只有站长能读整表（含联系方式、含未公开记录）
+-- 只有站长能读整表（导出的来源）
 drop policy if exists "owner_reads_all" on public.responses;
 create policy "owner_reads_all"
   on public.responses
@@ -90,7 +87,7 @@ create policy "owner_reads_all"
   to authenticated
   using (public.is_owner());
 
--- 只有站长能改（隐藏 / 恢复）
+-- 只有站长能改（订正写错的内容）
 drop policy if exists "owner_updates" on public.responses;
 create policy "owner_updates"
   on public.responses
@@ -107,72 +104,19 @@ create policy "owner_deletes"
   to authenticated
   using (public.is_owner());
 
--- 说明：anon 角色没有任何 select 策略，所以访客直接查表会被拒绝。
+-- 说明：anon 角色没有任何 select 策略，所以访客直接查表只会拿到 0 行。
+--      页面本身也不提供任何读取入口，提交完就结束。
 
 
 -- ===========================================================================
---  4. 公开读取接口
---     访客不能查表，但可以调用这两个函数。函数以定义者身份执行，
---     绕过 RLS，并且只返回「可以公开」的列。
+--  4. 清理旧版本的公开读取接口（如果之前跑过旧脚本）
 -- ===========================================================================
-create or replace function public.answers_feed(
-  p_limit  int  default 12,
-  p_offset int  default 0,
-  p_kind   text default 'all'
-)
-returns table (
-  id         uuid,
-  nickname   text,
-  grade      text,
-  expect     text,
-  ai_story   text,
-  created_at timestamptz
-)
-language sql
-security definer
-stable
-set search_path = public
-as $$
-  select r.id, r.nickname, r.grade, r.expect, r.ai_story, r.created_at
-  from public.responses r
-  where r.publish = true
-    and (
-      coalesce(p_kind, 'all') = 'all'
-      or (p_kind = 'expect' and coalesce(btrim(r.expect), '') <> '')
-      or (p_kind = 'ai'     and coalesce(btrim(r.ai_story), '') <> '')
-    )
-  order by r.created_at desc
-  limit least(greatest(coalesce(p_limit, 12), 1), 60)
-  offset greatest(coalesce(p_offset, 0), 0);
-$$;
-
-create or replace function public.answers_count(
-  p_kind text default 'all'
-)
-returns bigint
-language sql
-security definer
-stable
-set search_path = public
-as $$
-  select count(*)::bigint
-  from public.responses r
-  where r.publish = true
-    and (
-      coalesce(p_kind, 'all') = 'all'
-      or (p_kind = 'expect' and coalesce(btrim(r.expect), '') <> '')
-      or (p_kind = 'ai'     and coalesce(btrim(r.ai_story), '') <> '')
-    );
-$$;
-
-revoke all on function public.answers_feed(int, int, text) from public;
-revoke all on function public.answers_count(text) from public;
-grant execute on function public.answers_feed(int, int, text) to anon, authenticated;
-grant execute on function public.answers_count(text) to anon, authenticated;
+drop function if exists public.answers_feed(int, int, text);
+drop function if exists public.answers_count(text);
 
 
 -- ===========================================================================
---  5. 自检（运行完看结果，全部 should_be 都对才算配置成功）
+--  5. 自检（运行完看结果，全部 OK 才算配置成功）
 -- ===========================================================================
 select
   '管理员邮箱已替换' as 检查项,
@@ -194,18 +138,20 @@ select 'RLS 已开启', case when exists (
     where n.nspname = 'public' and c.relname = 'responses' and c.relrowsecurity
   ) then 'OK' else 'FAIL' end
 union all
-select '访客写入策略存在', case when exists (
+select '访客可以提交', case when exists (
     select 1 from pg_policies
     where schemaname = 'public' and tablename = 'responses'
       and policyname = 'anyone_can_submit'
   ) then 'OK' else 'FAIL' end
 union all
-select '公开接口已授权', case when has_function_privilege(
-    'anon', 'public.answers_feed(int,int,text)', 'execute'
+select '访客读不到任何记录', case when not exists (
+    select 1 from pg_policies
+    where schemaname = 'public' and tablename = 'responses'
+      and cmd = 'SELECT' and 'anon' = any(roles)
   ) then 'OK' else 'FAIL' end;
 
 
 -- ===========================================================================
---  附：想清空测试数据时，取消下面两行的注释再运行
+--  附：想清空测试数据时，取消下面这行的注释再运行
 -- ===========================================================================
 -- truncate table public.responses restart identity;

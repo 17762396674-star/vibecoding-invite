@@ -86,6 +86,11 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* 组件的 display 会盖掉 UA 的 [hidden]，这里补一条兜底 */
+[hidden] {
+  display: none !important;
+}
+
 h1,
 h2,
 h3,
@@ -291,45 +296,25 @@ select {
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 11px;
   white-space: nowrap;
 }
 
+/* 学校官方标志（横版：校徽 + 中英文校名），直接用原图，不重绘 */
 .brand__mark {
-  width: 30px;
-  height: 30px;
-  border-radius: 9px;
-  background: var(--ink);
-  display: grid;
-  place-items: center;
-  flex: none;
-}
-
-.brand__mark svg {
-  width: 70%;
-  height: 70%;
+  height: 26px;
+  width: auto;
   display: block;
-}
-
-.brand__name {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  line-height: 1.18;
-}
-
-.brand__school {
-  font-family: var(--font-mono);
-  font-size: 0.58rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  color: #6f6a60;
+  flex: none;
 }
 
 .brand__club {
   font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: -0.01em;
+  line-height: 1.2;
+  padding-left: 11px;
+  border-left: 1px solid var(--line-2);
 }
 
 .nav__links {
@@ -863,58 +848,6 @@ select {
   color: var(--muted);
 }
 
-/* ---------- 流程 ---------- */
-.agenda {
-  display: grid;
-  grid-template-columns: minmax(0, 120px) minmax(0, 1fr);
-  gap: 0;
-}
-
-.agenda__item {
-  display: contents;
-}
-
-.agenda__time {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: var(--ink);
-  padding: 22px 0 22px;
-  border-top: 1px solid var(--line);
-  letter-spacing: 0.02em;
-}
-
-.agenda__body {
-  padding: 22px 0;
-  border-top: 1px solid var(--line);
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  align-items: baseline;
-}
-
-.agenda__body h3 {
-  font-size: 1rem;
-  font-weight: 500;
-}
-
-.agenda__body p {
-  font-size: 0.86rem;
-  color: var(--muted);
-  text-align: right;
-  max-width: 30ch;
-}
-
-.agenda__item--key .agenda__time,
-.agenda__item--key .agenda__body {
-  border-top-color: var(--accent);
-}
-.agenda__item--key .agenda__time {
-  color: var(--accent);
-}
-.agenda__item--key .agenda__body h3 {
-  font-weight: 700;
-}
-
 /* ---------- 谁该来 / 带什么 ---------- */
 .prep {
   display: grid;
@@ -1166,259 +1099,6 @@ select {
   color: #a9f0c6;
 }
 
-/* ---------- 汇总墙 ---------- */
-.wall__bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-bottom: 26px;
-}
-
-.tabs {
-  display: inline-flex;
-  padding: 4px;
-  background: var(--paper-3);
-  border-radius: 999px;
-  gap: 2px;
-}
-
-.tab {
-  border: 0;
-  background: transparent;
-  border-radius: 999px;
-  padding: 8px 16px;
-  font-size: 0.84rem;
-  color: var(--ink-2);
-  transition: background 0.2s ease, color 0.2s ease;
-  white-space: nowrap;
-}
-.tab[aria-selected="true"] {
-  background: var(--paper-2);
-  color: var(--ink);
-  box-shadow: 0 1px 3px rgba(18, 17, 15, 0.1);
-}
-
-.wall__count {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--muted);
-  letter-spacing: 0.08em;
-}
-
-.wall {
-  columns: 3;
-  column-gap: 16px;
-}
-
-.note-card {
-  break-inside: avoid;
-  background: var(--paper-2);
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-  padding: 20px 20px 16px;
-  margin: 0 0 16px;
-  position: relative;
-  transition: border-color 0.25s ease, transform 0.25s ease;
-}
-.note-card:hover {
-  border-color: var(--line-2);
-  transform: translateY(-2px);
-}
-
-.note-card__top {
-  display: flex;
-  align-items: flex-start;
-  gap: 9px;
-  margin-bottom: 12px;
-}
-
-.avatar {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: #fff;
-  background: var(--accent);
-  flex: none;
-}
-
-.who {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  gap: 1px;
-  padding-top: 1px;
-}
-
-.who .name {
-  font-size: 0.84rem;
-  font-weight: 500;
-  line-height: 1.35;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 15em;
-}
-
-.who .grade {
-  font-size: 0.68rem;
-  color: var(--muted);
-  line-height: 1.4;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 16em;
-}
-
-.note-card__meta {
-  margin-left: auto;
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  color: var(--muted);
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-}
-
-.note-card__kind {
-  display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 0.56rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  padding: 1px 5px;
-  margin-bottom: 10px;
-}
-
-.note-card__text {
-  font-size: 0.9rem;
-  line-height: 1.72;
-  color: var(--ink-2);
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-}
-
-.wall__more {
-  display: flex;
-  justify-content: center;
-  margin-top: 26px;
-}
-
-.wall__more[hidden] {
-  display: none;
-}
-
-.empty {
-  text-align: center;
-  padding: 56px 20px;
-  border: 1px dashed var(--line-2);
-  border-radius: var(--r-md);
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-.empty b {
-  display: block;
-  color: var(--ink);
-  font-size: 1rem;
-  margin-bottom: 6px;
-  font-weight: 500;
-}
-
-/* ---------- 数据说明 ---------- */
-.flow {
-  list-style: none;
-  margin: 0 0 26px;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 22px;
-  counter-reset: fstep;
-}
-
-.flow li {
-  position: relative;
-  background: var(--paper-2);
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-  padding: 17px 18px 16px;
-  font-size: 0.93rem;
-  font-weight: 500;
-  line-height: 1.4;
-}
-
-.flow li span {
-  display: block;
-  font-weight: 400;
-  font-size: 0.79rem;
-  color: var(--muted);
-  margin-top: 6px;
-  line-height: 1.6;
-}
-
-.flow li::before {
-  content: "0" counter(fstep);
-  counter-increment: fstep;
-  font-family: var(--font-mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.1em;
-  color: var(--accent);
-  position: absolute;
-  top: 15px;
-  right: 16px;
-}
-
-.flow li + li::after {
-  content: "→";
-  position: absolute;
-  left: -16px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--muted);
-  opacity: 0.65;
-  font-size: 0.9rem;
-}
-
-.privacy {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 26px;
-}
-
-.privacy__box {
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-  padding: 20px 22px;
-  background: var(--paper-2);
-}
-.privacy__box h4 {
-  font-family: var(--font-mono);
-  font-size: 0.64rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 12px;
-  font-weight: 400;
-}
-.privacy__box ul {
-  margin: 0;
-  padding-left: 16px;
-  display: grid;
-  gap: 6px;
-  font-size: 0.85rem;
-  color: var(--ink-2);
-}
-.privacy__box li::marker {
-  color: var(--line-2);
-}
-
 /* ---------- 结尾 ---------- */
 .end {
   text-align: center;
@@ -1648,16 +1328,11 @@ select {
     gap: 8px;
   }
   .brand__mark {
-    width: 27px;
-    height: 27px;
-    border-radius: 8px;
+    height: 21px;
   }
   .brand__club {
     font-size: 0.82rem;
-  }
-  .brand__school {
-    font-size: 0.5rem;
-    letter-spacing: 0.1em;
+    padding-left: 8px;
   }
   .ticket {
     padding: 24px 20px 22px;

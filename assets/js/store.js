@@ -1,15 +1,13 @@
 /* ==========================================================================
    数据层
    --------------------------------------------------------------------------
-   对外只暴露三个方法，页面不关心数据是从 Supabase 来的还是演示数据：
-     Store.submit(payload)            -> { ok, position }
-     Store.list({ kind, offset })     -> { items, hasMore }
-     Store.count()                    -> number
+   对外只暴露一个方法，页面不关心数据是从 Supabase 来的还是本地演示数据：
+     Store.submit(payload)  -> { ok: true }
+   访客只能写，不能读；读全表只有管理后台能做（由数据库 RLS 决定）。
    ========================================================================== */
 
 (function () {
   var cfg = window.APP_CONFIG || {};
-  var PAGE_SIZE = cfg.PAGE_SIZE || 12;
   var hasRemote =
     !!cfg.SUPABASE_URL && !!cfg.SUPABASE_ANON_KEY && !!window.supabase;
 
@@ -27,8 +25,7 @@
   /* ---------------- 演示数据（未配置数据库时使用） ---------------- */
 
   var SEED = [];
-
-  var DEMO_KEY = 'invite_demo_rows_v2';
+  var DEMO_KEY = 'invite_demo_rows_v3';
 
   function readDemo() {
     try {
@@ -50,12 +47,6 @@
     } catch (e) {}
   }
 
-  function matchKind(row, kind) {
-    if (kind === 'expect') return !!row.expect;
-    if (kind === 'ai') return !!row.ai_story;
-    return true;
-  }
-
   /* ---------------- 公开接口 ---------------- */
 
   var Store = {
@@ -72,65 +63,21 @@
 
       if (!hasRemote) {
         var rows = readDemo();
-        var item = Object.assign({}, row, {
-          id: 'local_' + Date.now(),
-          created_at: Date.now(),
-        });
-        rows.unshift(item);
+        rows.unshift(
+          Object.assign({}, row, {
+            id: 'local_' + Date.now(),
+            created_at: new Date().toISOString(),
+          })
+        );
         writeDemo(rows);
-        return { ok: true, position: rows.length };
+        return { ok: true };
       }
 
       // 不加 .select()：访客没有读表的权限，加了会被 RLS 拒绝
       var res = await client.from('responses').insert(row);
       if (res.error) throw new Error(res.error.message || '提交失败');
 
-      var c = await client.rpc('answers_count', { p_kind: 'all' });
-      return { ok: true, position: c.error ? null : Number(c.data) || null };
-    },
-
-    async list(opts) {
-      var kind = (opts && opts.kind) || 'all';
-      var offset = (opts && opts.offset) || 0;
-      var limit = PAGE_SIZE;
-
-      if (!hasRemote) {
-        var rows = readDemo().filter(function (r) {
-          return matchKind(r, kind);
-        });
-        var page = rows.slice(offset, offset + limit).map(function (r) {
-          return {
-            id: r.id,
-            nickname: r.nickname,
-            grade: r.grade,
-            expect: r.expect,
-            ai_story: r.ai_story,
-            created_at:
-              typeof r.created_at === 'number'
-                ? new Date(r.created_at).toISOString()
-                : r.created_at,
-          };
-        });
-        return { items: page, hasMore: offset + limit < rows.length };
-      }
-
-      var res = await client.rpc('answers_feed', {
-        p_limit: limit,
-        p_offset: offset,
-        p_kind: kind,
-      });
-      if (res.error) throw new Error(res.error.message || '读取失败');
-      return {
-        items: res.data || [],
-        hasMore: (res.data || []).length === limit,
-      };
-    },
-
-    async count() {
-      if (!hasRemote) return readDemo().length;
-      var res = await client.rpc('answers_count', { p_kind: 'all' });
-      if (res.error) return null;
-      return Number(res.data) || 0;
+      return { ok: true };
     },
   };
 

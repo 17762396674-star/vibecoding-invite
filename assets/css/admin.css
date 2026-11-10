@@ -348,9 +348,6 @@ table.rows td.cell-name {
   .admin-bar .brand__club {
     font-size: 0.84rem;
   }
-  .admin-bar .brand__school {
-    font-size: 0.5rem;
-  }
   .admin-bar__right {
     gap: 6px;
   }

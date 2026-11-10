@@ -1,5 +1,5 @@
 /* ==========================================================================
-   管理后台：登录 / 拉取全部明细 / 导出表格 / 隐藏 / 删除
+   管理后台：登录 / 拉取全部明细 / 导出表格 / 删除
    权限不在这里判断 —— 这里的每一次查询都由数据库 RLS 决定能不能成功，
    所以就算有人把这个页面的 JS 改一遍，也读不到别人的数据。
    ========================================================================== */
@@ -122,7 +122,7 @@
     rowsEl.innerHTML = '<tr><td colspan="6" style="padding:22px 12px;color:#7c766a">读取中…</td></tr>';
     var res = await client
       .from('responses')
-      .select('id,created_at,nickname,grade,expect,ai_story,publish')
+      .select('id,created_at,nickname,grade,expect,ai_story')
       .order('created_at', { ascending: false })
       .limit(1000);
 
@@ -211,8 +211,6 @@
         return (
           '<tr data-id="' +
           r.id +
-          '" class="' +
-          (r.publish ? '' : 'is-hidden-row') +
           '">' +
           '<td class="cell-nowrap" data-label="时间">' +
           fmt(r.created_at) +
@@ -230,11 +228,6 @@
           (r.ai_story ? '<span class="tag-mini">AI</span><br>' + esc(r.ai_story) : '—') +
           '</td>' +
           '<td class="cell-ops" data-label="操作">' +
-          '<button class="op" data-act="toggle" data-id="' +
-          r.id +
-          '">' +
-          (r.publish ? '隐藏' : '显示') +
-          '</button>' +
           '<button class="op op--danger" data-act="del" data-id="' +
           r.id +
           '">删除</button>' +
@@ -258,19 +251,6 @@
       return r.id === id;
     });
     if (!row) return;
-
-    if (act === 'toggle') {
-      btn.disabled = true;
-      var res = await client
-        .from('responses')
-        .update({ publish: !row.publish })
-        .eq('id', id);
-      btn.disabled = false;
-      if (res.error) return toast('操作失败：' + res.error.message);
-      row.publish = !row.publish;
-      render();
-      toast(row.publish ? '已恢复显示' : '已从墙上隐藏');
-    }
 
     if (act === 'del') {
       if (!window.confirm('删除这条记录？不可恢复。\n\n' + (row.nickname || '') + '：' + (row.expect || row.ai_story || '').slice(0, 40) + '…')) return;
@@ -328,7 +308,7 @@
     var rows = currentRows();
     if (!rows.length) return toast('没有可导出的内容');
 
-    var head = ['序号', '提交时间', '昵称', '年级专业', '对活动的期待', 'AI 故事', '是否公开展示'];
+    var head = ['序号', '提交时间', '昵称', '年级专业', '对活动的期待', 'AI 故事'];
     var lines = [head.map(csvCell).join(',')];
 
     rows.forEach(function (r, i) {
@@ -340,7 +320,6 @@
           r.grade,
           r.expect,
           r.ai_story,
-          r.publish ? '是' : '否',
         ]
           .map(csvCell)
           .join(',')

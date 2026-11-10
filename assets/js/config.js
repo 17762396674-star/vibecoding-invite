@@ -14,9 +14,6 @@ window.APP_CONFIG = {
   SUPABASE_URL: "",
   SUPABASE_ANON_KEY: "",
 
-  // 汇总墙每次加载多少条
-  PAGE_SIZE: 12,
-
   // 单个回答的最大字数（与数据库约束保持一致）
   MAX_LEN: 800,
 };
